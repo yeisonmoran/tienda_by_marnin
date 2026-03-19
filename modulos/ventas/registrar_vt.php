@@ -1,6 +1,16 @@
+
+
+
+
+
+
+
+
+
+
 <?php
 
-include("../config/conexion.php")
+include("../../config/conexion.php")
 
 ?>
 
@@ -9,40 +19,40 @@ include("../config/conexion.php")
 
 <form method="POST">
 
-<label>Producto</label>
-<select name="id_producto">
+    <label>Producto</label>
+    <select name="id_producto">
 
-<?php
-$productos = $conexion->query("SELECT id_producto, nombre FROM productos");
-while ($p = $productos ->fetch_assoc()) {   
+        <?php
+        $productos = $conexion->query("SELECT id_producto, nombre FROM productos");
+        while ($p = $productos->fetch_assoc()) {
 
-?>
+            ?>
 
-<option value="<?php echo $p['id_producto']; ?>">
+            <option value="<?php echo $p['id_producto']; ?>">
 
-<?php echo $p['nombre'];?> 
+                <?php echo $p['nombre']; ?>
 
-</option>
+            </option>
 
-<?php } ?>
+        <?php } ?>
 
-</select><br><br>
+    </select><br><br>
 
 
-<label>Cantidad</label>
+    <label>Cantidad</label>
 
-<input type="number" name="cantidad" min="1"><br><br>
+    <input type="number" name="cantidad" min="1"><br><br>
 
-<button type="submit">Vender</button>
+    <button type="submit">Vender</button>
 
 </form>
 
 <?php
-if ($_POST){
+if ($_POST) {
     $id_producto = $_POST['id_producto'];
     $cantidad = $_POST['cantidad'];
 
-       // 1️⃣ Consultar stock actual
+    // 1️⃣ Consultar stock actual
     $consulta = $conexion->query(
         "SELECT stock FROM productos WHERE id_producto = $id_producto"
     );
@@ -69,7 +79,3 @@ if ($_POST){
 }
 
 ?>
-
-
-
-

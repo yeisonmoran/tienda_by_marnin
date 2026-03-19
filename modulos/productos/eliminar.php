@@ -1,7 +1,7 @@
 
 <?php
 
-include('../config/conexion.php');
+include('../../config/conexion.php');
 
 $sql = "DELETE FROM productos WHERE id_producto
 

@@ -1,6 +1,6 @@
 <?php 
 
-include("../config/conexion.php");
+include("../../config/conexion.php");
 
 $sql = "SELECT nombre, stock FROM productos";
 

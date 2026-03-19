@@ -1,6 +1,6 @@
 <?php
 
-include("../config/conexion.php");
+include("../../config/conexion.php");
 
 $sql = "SELECT id_producto, codigo, nombre, precio, stock FROM productos";
 $resultado = $conexion->query($sql);
