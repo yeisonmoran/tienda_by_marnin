@@ -26,7 +26,10 @@ $resultado = $conexion->query($sql);
         <td><?= $fila['nombre'] ?></td>
         <td><?= $fila['precio'] ?></td>
         <td><?= $fila['stock'] ?></td>
-        <td><a href="editar.php?id=<?= $fila['id_producto'] ?>">Editar</a></td>
+        <td>
+            <a href="editar.php?id=<?= $fila['id_producto'] ?>">Editar</a> | 
+            <a href="eliminar.php?id=<?= $fila['id_producto'] ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">Eliminar</a>
+        </td>
     </tr>
 <?php } 
 
