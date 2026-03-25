@@ -20,5 +20,5 @@ En desarrollo activo — versión final estimada para [Mayo/2026]
 
 ## Diagrama ER
 <p align="center">
-  <img src="https://github.com/yeisonmoran/By-marnin-projet/blob/master/avatar.png" alt="Banner de Yeison Moran">
+  <img src="assets/img/DE.png" alt="Banner de Yeison Moran">
 </p>
