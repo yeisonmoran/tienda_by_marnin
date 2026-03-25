@@ -91,6 +91,13 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="/tienda_by_marnin/modulos/clientes/registrar_client.php" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Clientes</p>
+            </a>
+          </li>
+
           <li class="nav-header">MI CUENTA</li>
           <li class="nav-item">
             <a href="/tienda_by_marnin/auth/login.php" class="nav-link text-danger">
