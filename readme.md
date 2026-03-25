@@ -19,4 +19,6 @@ Diseño e implementación de una aplicación web para la gestión de ventas de l
 En desarrollo activo — versión final estimada para [Mayo/2026]
 
 ## Diagrama ER
-
+<p align="center">
+  <img src="https://github.com/yeisonmoran/By-marnin-projet/blob/master/avatar.png" alt="Banner de Yeison Moran">
+</p>
