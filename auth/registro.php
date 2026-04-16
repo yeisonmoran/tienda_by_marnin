@@ -15,8 +15,7 @@
     <select name="id_rol" required>
         <option value="">Seleccione un rol</option>
         <option value="1">Administrador</option>
-        <option value="2">Usuario</option>
-        <option value="3">Vendedor</option>
+        <option value="2">Vendedor</option>
     </select><br><br>
 
     <button type="submit">Registrar</button>
