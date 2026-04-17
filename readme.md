@@ -20,5 +20,5 @@ En desarrollo activo — versión final estimada para [Mayo/2026]
 
 ## Diagrama ER
 <p align="center">
-  <img src="assets/img/model_bd" alt="Banner de Yeison Moran">
+  <img src="assets/img/model_bd.png" alt="Banner de Yeison Moran">
 </p>
