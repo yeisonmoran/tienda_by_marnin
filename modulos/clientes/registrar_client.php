@@ -1,99 +1,94 @@
 <?php
-include("../../includes/header.php");
-include('../../config/conexion.php'); // Movimos la conexión arriba
+include('../../includes/header.php');
+include('../../config/conexion.php');
 
-$mensaje = ""; // Variable para guardar alertas bonitas
+$mensaje = "";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
-    $telefono = $_POST['telefono'];
-    $numero_documento = $_POST['numero_documento'];
-    $ciudad = $_POST['ciudad'];
-    $id_tipo_documento = $_POST['id_tipo_documento'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre            = trim($_POST['nombre']);
+    $correo            = trim($_POST['correo']);
+    $telefono          = trim($_POST['telefono']);
+    $numero_documento  = trim($_POST['numero_documento']);
+    $ciudad            = trim($_POST['ciudad']);
+    $id_tipo_documento = (int)$_POST['id_tipo_documento'];
 
-    $sql = "INSERT INTO clientes(nombre, correo, telefono, numero_documento, ciudad, id_tipo_documento)
-    VALUES('$nombre', '$correo', '$telefono', '$numero_documento', '$ciudad', '$id_tipo_documento')";
+    $stmt = $conexion->prepare("INSERT INTO clientes (nombre, correo, telefono, numero_documento, ciudad, id_tipo_documento) VALUES (?,?,?,?,?,?)");
+    $stmt->bind_param("sssssi", $nombre, $correo, $telefono, $numero_documento, $ciudad, $id_tipo_documento);
 
-    if ($conexion->query($sql)) {
-        // En vez de hacer un simple "echo", preparamos una alerta verde (success) de Bootstrap
-        $mensaje = "<div class='alert alert-success'>Cliente registrado correctamente.</div>";
+    if ($stmt->execute()) {
+        $mensaje = "<div class='alert alert-success'><i class='fas fa-check-circle mr-2'></i>Cliente <b>$nombre</b> registrado correctamente.</div>";
     } else {
-        // Alerta roja (danger) para errores
-        $mensaje = "<div class='alert alert-danger'>Error: " . $conexion->error . "</div>";
+        $mensaje = "<div class='alert alert-danger'><i class='fas fa-times-circle mr-2'></i>Error: " . htmlspecialchars($conexion->error) . "</div>";
     }
 }
+
+$tipos = $conexion->query("SELECT * FROM tipos_documento ORDER BY nombre");
 ?>
 
-<section class="content mt-3">
-    <div class="container-fluid">
-        
-        <!-- Iniciamos la tarjeta principal de diseño -->
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Registrar Nuevo Cliente</h3>
-            </div>
-            
-            <div class="card-body">
-                <!-- Imprimimos nuestra alerta (si la hay) -->
-                <?= $mensaje ?>
-
-                <form method="POST">
-                    <!-- Usamos un div "row" para dividir el formulario en 2 columnas -->
-                    <div class="row">
-
-                        <!-- col-md-6 significa "Ocupa la mitad de la pantalla" -->
-                        <div class="col-md-6 form-group">
-                            <label for="nombre">Nombre Completo</label>
-                            <!-- La clase "form-control" es la que le da la apariencia bonita a la caja -->
-                            <input type="text" name="nombre" class="form-control" placeholder="Ej: Juan Pérez" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="correo">Correo Electrónico</label>
-                            <!-- Cambié type="text" a type="email" para mayor seguridad -->
-                            <input type="email" name="correo" class="form-control" placeholder="Ej: juan@mail.com" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="number" name="telefono" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="ciudad">Ciudad</label>
-                            <input type="text" name="ciudad" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="id_tipo_documento">Tipo de Documento</label>
-                            <select name="id_tipo_documento" class="form-control" required>
-                                <option value="">Seleccione un tipo...</option>
-                                <option value="1">(CC) Cédula de Ciudadanía</option>
-                                <option value="2">(TI) Tarjeta de Identidad</option>
-                                <option value="3">(CE) Cédula Extranjera</option>
-                                <option value="4">(PAS) Pasaporte</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label for="numero_documento">Número de Documento</label>
-                            <input type="number" name="numero_documento" class="form-control" required>
-                        </div>
-
-                    </div>
-
-                    <br>
-                    <!-- El botón con clases "btn btn-primary" para que sea azul y redondeado -->
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Guardar Cliente
-                    </button>
-
-                </form>
-            </div>
-        </div>
-
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6"><h1 class="m-0"><i class="fas fa-user-plus mr-2 text-primary"></i>Registrar Cliente</h1></div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="/tienda_by_marnin/index.php">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="listar.php">Clientes</a></li>
+          <li class="breadcrumb-item active">Registrar</li>
+        </ol>
+      </div>
     </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-user-plus mr-2"></i>Nuevo Cliente</h3>
+        <div class="card-tools">
+          <a href="listar.php" class="btn btn-sm btn-secondary"><i class="fas fa-list mr-1"></i>Ver todos</a>
+        </div>
+      </div>
+      <div class="card-body">
+        <?= $mensaje ?>
+        <form method="POST">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label><b>Nombre completo</b></label>
+              <input type="text" name="nombre" class="form-control" placeholder="Ej: Juan Pérez" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Correo electrónico</b></label>
+              <input type="email" name="correo" class="form-control" placeholder="juan@mail.com" required>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Teléfono</b></label>
+              <input type="text" name="telefono" class="form-control" placeholder="3001234567">
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Ciudad</b></label>
+              <input type="text" name="ciudad" class="form-control" placeholder="Bogotá" required>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Tipo de documento</b></label>
+              <select name="id_tipo_documento" class="form-control" required>
+                <option value="">Seleccione...</option>
+                <?php while ($t = $tipos->fetch_assoc()): ?>
+                  <option value="<?= $t['id_tipo_documento'] ?>">(<?= $t['abreviatura'] ?>) <?= htmlspecialchars($t['nombre']) ?></option>
+                <?php endwhile; ?>
+              </select>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Número de documento</b></label>
+              <input type="text" name="numero_documento" class="form-control" placeholder="10223344" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Guardar Cliente</button>
+          <a href="listar.php" class="btn btn-secondary ml-2"><i class="fas fa-times mr-1"></i>Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 
-<?php include("../../includes/footer.php"); ?>
+<?php include('../../includes/footer.php'); ?>

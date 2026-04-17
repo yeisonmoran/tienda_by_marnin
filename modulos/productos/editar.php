@@ -1,107 +1,110 @@
 <?php
-// 1. OBTENER CONEXIÓN Y HEADER (La plantilla que armamos antes)
 include('../../includes/header.php');
 include('../../config/conexion.php');
 
-// ==============================================================================
-// PASO 1 (MÉTODO GET): Obtener el producto cuando recién abres la página
-// ==============================================================================
-// Cuando haces clic en "Editar" desde listar.php, se manda "?id=algo" por la URL.
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    
-    // Consultamos la Base de Datos para extraer TODO sobre ese producto en particular
-    $sql_consultar = "SELECT * FROM productos WHERE id_producto = $id";
-    $resultado = $conexion->query($sql_consultar);
-    
-    // Guardamos los datos del producto en un Arreglo (Array) llamado $producto
-    $producto = $resultado->fetch_assoc();
-}
+$id = (int)($_GET['id'] ?? 0);
+if ($id === 0) { header('Location: listar.php'); exit; }
 
-// ==============================================================================
-// PASO 2 (MÉTODO POST): Guardar los cambios en la Base de Datos al dar clic
-// ==============================================================================
-// Si la página se recargó porque alguien le dio al botón "Guardar Cambios" (Submit)
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
-    // Atrapamos lo que el usuario escribió en las cajas de texto
-    $id_oculto = $_POST['id_producto']; // El ID que guardamos oculto en el formulario
-    $codigo    = $_POST['codigo'];
-    $nombre    = $_POST['nombre'];
-    $precio    = $_POST['precio'];
-    $stock     = $_POST['stock'];
+$stmt = $conexion->prepare("SELECT * FROM productos WHERE id_producto = ? LIMIT 1");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$prod = $stmt->get_result()->fetch_assoc();
+if (!$prod) { header('Location: listar.php'); exit; }
 
-    // Enviamos la instrucción de ACTUALIZAR (UPDATE)
-    $sql_actualizar = "UPDATE productos SET 
-                        codigo = '$codigo', 
-                        nombre = '$nombre', 
-                        precio = $precio, 
-                        stock = $stock 
-                       WHERE id_producto = $id_oculto";
-                   
-    // Si la actualización sale bien, regresamos al usuario a la tabla
-    if ($conexion->query($sql_actualizar)) {
-        header("Location: listar.php");
-        exit();
+$mensaje = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $codigo       = trim($_POST['codigo']);
+    $nombre       = trim($_POST['nombre']);
+    $precio       = (float)$_POST['precio'];
+    $stock        = (int)$_POST['stock'];
+    $stock_minimo = (int)$_POST['stock_minimo'];
+    $id_categoria = (int)$_POST['id_categoria'];
+    $descripcion  = trim($_POST['descripcion']);
+
+    $upd = $conexion->prepare("UPDATE productos SET codigo=?, nombre=?, precio=?, stock=?, stock_minimo=?, id_categoria=?, descripcion=? WHERE id_producto=?");
+    $upd->bind_param("ssdiiisi", $codigo, $nombre, $precio, $stock, $stock_minimo, $id_categoria, $descripcion, $id);
+
+    if ($upd->execute()) {
+        header('Location: listar.php?ok=edit');
+        exit;
     } else {
-        echo "Error al actualizar: " . $conexion->error;
+        $mensaje = "<div class='alert alert-danger'>Error: " . htmlspecialchars($conexion->error) . "</div>";
     }
 }
+
+$categorias = $conexion->query("SELECT * FROM categorias ORDER BY nombre");
 ?>
 
-<!-- ============================================================================== -->
-<!-- PASO 3 (HTML): Pintar el Formulario en pantalla                                -->
-<!-- ============================================================================== -->
-<section class="content mt-3">
-    <div class="container-fluid">
-        <!-- Usamos una tarjeta (card) de AdminLTE para que se vea bonito -->
-        <div class="card card-warning">
-            <div class="card-header">
-                <h3 class="card-title">Editar Producto</h3>
-            </div>
-            
-            <div class="card-body">
-                <!-- FORMULARIO: Usamos method="POST" para enviar la info sin que se vea en la URL -->
-                <form method="POST">
-                    
-                    <!-- ¡TRUCO IMPORTANTE! -->
-                    <!-- Necesitamos decirle a PHP qué producto estamos editando. 
-                         Como no queremos que el usuario modifique su "ID", usamos type="hidden" (Oculto) -->
-                    <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
-
-                    <div class="form-group">
-                        <label>Código</label>
-                        <!-- Usamos "value" para imprimir con PHP los datos previos en la cajita -->
-                        <input type="text" name="codigo" class="form-control" value="<?php echo $producto['codigo']; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nombre del Producto</label>
-                        <input type="text" name="nombre" class="form-control" value="<?php echo $producto['nombre']; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Precio</label>
-                        <input type="number" step="0.01" name="precio" class="form-control" value="<?php echo $producto['precio']; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Stock</label>
-                        <input type="number" name="stock" class="form-control" value="<?php echo $producto['stock']; ?>" required>
-                    </div>
-
-                    <br>
-                    <!-- Al dar clic aquí, PHP se da cuenta que el REQUEST_METHOD es 'POST' e inicia el Paso 2 -->
-                    <button type="submit" class="btn btn-warning">Guardar Cambios</button>
-                    <!-- Un botón simple que solo nos regresa a la tabla si nos arrepentimos -->
-                    <a href="listar.php" class="btn btn-secondary">Cancelar</a>
-                </form>
-            </div>
-        </div>
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6"><h1 class="m-0"><i class="fas fa-pencil-alt mr-2 text-warning"></i>Editar Producto</h1></div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="/tienda_by_marnin/index.php">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="listar.php">Productos</a></li>
+          <li class="breadcrumb-item active">Editar</li>
+        </ol>
+      </div>
     </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card card-warning">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-edit mr-2"></i>Editando: <?= htmlspecialchars($prod['nombre']) ?></h3>
+      </div>
+      <div class="card-body">
+        <?= $mensaje ?>
+        <form method="POST">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label><b>Código</b></label>
+              <input type="text" name="codigo" class="form-control" value="<?= htmlspecialchars($prod['codigo']) ?>" required>
+            </div>
+            <div class="col-md-8 form-group">
+              <label><b>Nombre</b></label>
+              <input type="text" name="nombre" class="form-control" value="<?= htmlspecialchars($prod['nombre']) ?>" required>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Precio ($)</b></label>
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                <input type="number" name="precio" class="form-control" step="0.01" min="0" value="<?= $prod['precio'] ?>" required>
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Stock actual</b></label>
+              <input type="number" name="stock" class="form-control" min="0" value="<?= $prod['stock'] ?>" required>
+            </div>
+            <div class="col-md-4 form-group">
+              <label><b>Stock mínimo</b></label>
+              <input type="number" name="stock_minimo" class="form-control" min="0" value="<?= $prod['stock_minimo'] ?>" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Categoría</b></label>
+              <select name="id_categoria" class="form-control" required>
+                <?php while ($cat = $categorias->fetch_assoc()): ?>
+                  <option value="<?= $cat['id_categoria'] ?>" <?= $cat['id_categoria'] == $prod['id_categoria'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($cat['nombre']) ?>
+                  </option>
+                <?php endwhile; ?>
+              </select>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Descripción</b></label>
+              <input type="text" name="descripcion" class="form-control" value="<?= htmlspecialchars($prod['descripcion'] ?? '') ?>">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-warning"><i class="fas fa-save mr-2"></i>Actualizar Producto</button>
+          <a href="listar.php" class="btn btn-secondary ml-2"><i class="fas fa-times mr-1"></i>Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 
-<?php 
-// 4. CERRAR EL DISEÑO
-include('../../includes/footer.php'); 
-?>
+<?php include('../../includes/footer.php'); ?>

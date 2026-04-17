@@ -6,18 +6,18 @@ require_once('../../config/conexion.php');
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id > 0) {
-    // Verificar si el producto aparece en algún detalle de venta
-    $chk = $conexion->prepare("SELECT COUNT(*) as total FROM detalle_ventas WHERE id_producto = ?");
+    // Verificar si el cliente tiene ventas registradas
+    $chk = $conexion->prepare("SELECT COUNT(*) as total FROM ventas WHERE id_cliente = ?");
     $chk->bind_param("i", $id);
     $chk->execute();
     $total = $chk->get_result()->fetch_assoc()['total'];
 
     if ($total > 0) {
-        header("Location: listar.php?error=fk&nombre=este+producto&detalle=Aparece+en+$total+venta(s)+registrada(s).+No+puede+eliminarse+para+no+perder+el+historial.");
+        header("Location: listar.php?error=fk&nombre=este+cliente&detalle=Tiene+$total+venta(s)+en+el+historial.+Elimina+primero+sus+ventas+o+conserva+el+cliente.");
         exit;
     }
 
-    $stmt = $conexion->prepare("DELETE FROM productos WHERE id_producto = ?");
+    $stmt = $conexion->prepare("DELETE FROM clientes WHERE id_cliente = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
         header('Location: listar.php?ok=del');

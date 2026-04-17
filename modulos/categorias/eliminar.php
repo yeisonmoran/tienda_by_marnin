@@ -6,18 +6,20 @@ require_once('../../config/conexion.php');
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id > 0) {
-    // Verificar si el producto aparece en algún detalle de venta
-    $chk = $conexion->prepare("SELECT COUNT(*) as total FROM detalle_ventas WHERE id_producto = ?");
+    // Verificar si la categoría tiene productos asociados
+    $chk = $conexion->prepare("SELECT COUNT(*) as total FROM productos WHERE id_categoria = ?");
     $chk->bind_param("i", $id);
     $chk->execute();
     $total = $chk->get_result()->fetch_assoc()['total'];
 
     if ($total > 0) {
-        header("Location: listar.php?error=fk&nombre=este+producto&detalle=Aparece+en+$total+venta(s)+registrada(s).+No+puede+eliminarse+para+no+perder+el+historial.");
+        // No se puede eliminar: tiene productos vinculados
+        header("Location: listar.php?error=fk&nombre=esta+categoría&detalle=Tiene+$total+producto(s)+asociado(s).+Reasígnalos+o+elimínalos+primero.");
         exit;
     }
 
-    $stmt = $conexion->prepare("DELETE FROM productos WHERE id_producto = ?");
+    // Sin dependencias: eliminar con seguridad
+    $stmt = $conexion->prepare("DELETE FROM categorias WHERE id_categoria = ?");
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
         header('Location: listar.php?ok=del');
