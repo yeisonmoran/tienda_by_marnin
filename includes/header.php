@@ -18,6 +18,7 @@ if (!isset($_SESSION['id_usuario'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="/tienda_by_marnin/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="/tienda_by_marnin/assets/css/dashboardMenu.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -60,33 +61,9 @@ if (!isset($_SESSION['id_usuario'])) {
     <!-- Sidebar Lateral -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="/tienda_by_marnin/index.php" class="brand-link text-center">
-        <span class="brand-text font-weight-light"><b>By</b>Marnin</span>
+        <span class="brand-text font-weight"><b>By</b>Marnin</span>
         <div class="logo-sidebar">
           <img src="/tienda_by_marnin/assets/img/logo.png" alt="By Marnin Makeup">
-
-          <style>
-            .brand-link {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              padding: 10px;
-            }
-
-            .logo-sidebar {
-              width: 200px;
-              height: 200px;
-              border-radius: 50%;
-              overflow: hidden;
-              border: 2px solid #e84393;
-              margin-top: 8px;
-            }
-
-            .logo-sidebar img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-            }
-          </style>
         </div>
       </a>
 

@@ -1,0 +1,31 @@
+.brand-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo-sidebar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ff00f2ff;
+    margin-top: 7px;
+}
+
+.logo-sidebar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.logo-sidebar {
+  transition: all 0.3s ease;
+}
+
+.sidebar-collapse .logo-sidebar {
+  opacity: 0;
+  transform: scale(0.8);
+  height: 0;
+  overflow: hidden;
+}
