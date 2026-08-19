@@ -27,7 +27,7 @@ export async function registrarCliente(req, res) {
                 error: "El nombre es obligatorio"
             });
         }
-        if (!correo || correo.trim() === ""){
+        if (!correo){
 
               return res.status(400).json({
                 error: "El correo es obligatorio"
@@ -40,17 +40,17 @@ export async function registrarCliente(req, res) {
             });
         }
 
-        if (telefono.length > 10 || telefono === ""){
+        if (telefono === undefined || !/^\d{10}$/.test(telefono)){
 
               return res.status(400).json({
-                error: "El numero de telefono es obligatorio"
+                error: "El telefono debe contener 10 digitos"
             });
         }
 
-          if (ciudad.trim() === ""){
+        if (!ciudad || ciudad === undefined){
 
               return res.status(400).json({
-                error: "Este campo no puede estar vacio"
+                error: "El ciudad es obligatorio"
             });
         }
 
@@ -119,7 +119,7 @@ export async function eliminarCliente(req, res) {
       where: { id_cliente: Number(id) },
     });
 
-    res.status(204).json({ mensaje: "Cliente eliminado correctamente"});
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al eliminar cliente" });
@@ -138,6 +138,8 @@ export async function obtenerCliente(req, res) {
         if (!clientes){
             return res.status(404).json({error: "Cliente no encontrado"});
         }
+
+        res.json(clientes);
         
     } catch (error) {
         console.error(error);
