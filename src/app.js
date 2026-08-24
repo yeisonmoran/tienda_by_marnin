@@ -5,6 +5,7 @@ import categoriaRoutes from "./routes/categoria.routes.js";
 import productoRoutes from "./routes/producto.routes.js";
 import usuarioRoutes from "./routes/usuario.routes.js";
 import clienteRoutes from "./routes/cliente.routes.js";
+import ventaRoutes from "./routes/venta.routes.js"; 
 
 
 const app = express();
@@ -16,6 +17,7 @@ app.use("/api/categorias", categoriaRoutes);
 app.use("/api/productos", productoRoutes);
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/clientes", clienteRoutes);
+app.use("/api/ventas", ventaRoutes);
 
 
 app.get("/", (req, res) => {

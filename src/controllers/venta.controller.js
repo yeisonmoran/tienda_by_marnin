@@ -1,52 +1,113 @@
 import prisma from "../config/db.js";
 
 
-export async function listarVentas(req, res){
-
-    try {
-        const ventas = await prisma.venta.findMany();
-        res.json(ventas);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({error: "Error al listar ventas"});
-    }
-
-}
-
-
-
-export async function registrarVenta(req, res){
+export async function registrarVenta(req, res) {
 
     try {
 
-        const {idCliente, idUsuario, metodoPago, productos } = req.body;
+        const { idCliente, idUsuario, metodoPago, detalles } = req.body;
 
-        if (!idCliente){
+        if (!idCliente) {
             return res.status(400).json({
                 error: "El cliente es obligatorio"
             });
         }
 
-        if (!idUsuario){
+        if (!idUsuario) {
             return res.status(400).json({
                 error: "El usuario es obligatorio"
             });
         }
 
-        if (!metodoPago){
+        if (!detalles || detalles.length === 0) {
             return res.status(400).json({
-                error: "El metodo de pago es obligatorio"
+                error: "La venta debe tener un detalle"
             });
         }
 
-        if (!idUsuario){
-            return res.status(400).json({
-                error: "El usuario es obligatorio"
+
+        const productosConError = [];
+        const productosEncontrados = [];
+
+        for (const item of detalles) {
+
+            const producto = await prisma.producto.findUnique({
+                where: { id_producto: Number(item.idProducto) },
+            });
+
+            if (!producto) {
+                productosConError.push({ idProducto: item.idProducto, motivo: "No existe" });
+            }
+
+            if (producto.stock < item.cantidad) {
+                productosConError.push({
+                    idProducto: item.idProducto,
+                    solicitado: item.cantidad,
+                    disponible: producto.stock,
+                });
+
+                continue;
+            }
+            productosEncontrados.push({ producto, cantidad: item.cantidad });
+
+        }
+
+        if (productosConError.length > 0) {
+            return res.status(409).json({
+                error: "stock insuficinte",
+                productos: productosConError,
             });
         }
+
+        let total = 0;
+
+        const lineasDetalle = productosEncontrados.map(({ producto, cantidad }) => {
+            const subtotal = Number(producto.precio) * cantidad;
+            total += subtotal;
+
+            return {
+                idProducto: producto.id_producto,
+                cantidad,
+                precioUnitario: producto.precio, subtotal,
+            };
+        });
+
+        const resultado = await prisma.$transaction(async (tx) => {
+            const nuevaVenta = await tx.venta.create({
+                data: {
+                    idCliente: Number(idCliente),
+                    idUsuario: Number(idUsuario),
+                    fecha: new Date(),
+                    total,
+                    estado: "Completada",
+                    metodoPago: metodoPago || "efectivo, Digital",
+                },
+            });
+
+            for (const linea of lineasDetalle) {
+                await tx.detalleVenta.create({
+                    data: {
+                        idVenta: nuevaVenta.id_venta,
+                        idProducto: linea.idProducto,
+                        cantidad: linea.cantidad,
+                        precioUnitario: linea.precioUnitario,
+                        subtotal: linea.subtotal,
+                    },
+                });
+
+                await tx.producto.update({
+                    where: { id_producto: linea.idProducto },
+                    data: { stock: { decrement: linea.cantidad } },
+                });
+
+            }
+            return nuevaVenta;
+        });
+
+        res.status(201).json(resultado);
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Error al registrar venta"});
+        res.status(500).json({ error: "Error al registrar venta" });
     }
 }

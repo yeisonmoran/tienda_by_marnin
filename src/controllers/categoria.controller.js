@@ -37,7 +37,7 @@ export async function registrarCategoria(req, res) {
   try {
     const { nombre, descripcion } = req.body; 
 
-    if (!nombre) {
+    if (!nombre || nombre === "") {
       return res.status(400).json({ error: "El nombre es obligatorio" });
     }
 
