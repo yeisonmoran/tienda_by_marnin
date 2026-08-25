@@ -11,7 +11,6 @@ export async function listarProductos(req, res) {
         console.error(error);
         res.status(500).json({ error: "Error al listar productos" });
     }
-
 }
 
 
@@ -95,11 +94,9 @@ export async function editarProducto(req, res) {
         const { id } = req.params;
         const { codigo, nombre, precio, stock, stockMinimo, descripcion } = req.body;
 
-        //Pendiente por hacer
-        if (stock === undefined){
-
+        if (stock === undefined) {
+            return res.status(400).json({ error: "El stock es obligatorio" });
         }
-
         const productoActualizado = await prisma.producto.update({
             where: { id_producto: Number(id) },
             data: { codigo, nombre, precio, stock, stockMinimo, descripcion }

@@ -14,7 +14,7 @@ export async function listarCategorias(req, res) {
 
 export async function obtenerCategoria(req, res) {
   try {
-    const { id } = req.params; 
+    const { id } = req.params;
 
     const categoria = await prisma.categoria.findUnique({
       where: { id_categoria: Number(id) },
@@ -35,7 +35,7 @@ export async function obtenerCategoria(req, res) {
 
 export async function registrarCategoria(req, res) {
   try {
-    const { nombre, descripcion } = req.body; 
+    const { nombre, descripcion } = req.body;
 
     if (!nombre || nombre === "") {
       return res.status(400).json({ error: "El nombre es obligatorio" });
@@ -81,7 +81,7 @@ export async function eliminarCategoria(req, res) {
       where: { id_categoria: Number(id) },
     });
 
-    res.status(204).send(); 
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al eliminar la categoría" });

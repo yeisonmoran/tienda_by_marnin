@@ -111,3 +111,61 @@ export async function registrarVenta(req, res) {
         res.status(500).json({ error: "Error al registrar venta" });
     }
 }
+
+
+/*Funcion para anular ventas
+En el momento en el que se anule una venta, el stock de los productos descontados
+Vulven a sumarce sastifactoriamente*/
+
+export async function anularVenta(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const venta = await prisma.venta.findUnique({
+            where: { id_venta: Number(id) },
+            include: { detalles: true },
+        });
+
+        if (!venta) {
+
+            return res.status(404).json({
+                error: "No existe"
+            });
+        }
+
+        if (venta.estado === "Anulada") {
+
+            return res.status(400).json({
+                error: "No hay venta por anular"
+            });
+
+        }
+
+        const resultado = await prisma.$transaction(async (tx) => {
+            for (const detalle of venta.detalles) {
+                await tx.producto.update({
+                    where: { id_producto: detalle.idProducto },
+                    data: { stock: { increment: detalle.cantidad } },
+                });
+
+            }
+
+            const ventaAnulada = await tx.venta.update({
+                where: { id_venta: Number(id) },
+                data: { estado: "Anulada" },
+
+            });
+
+            return ventaAnulada;
+        });
+        res.json(resultado);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al anular venta" });
+    }
+
+}
+

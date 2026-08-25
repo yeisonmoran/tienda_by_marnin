@@ -1,5 +1,6 @@
 
 import { Router} from "express";
+import {verificarToken} from "../middleware/Auth.middleware.js";
 
 import {
     listarProductos,
@@ -16,9 +17,11 @@ const router = Router();
 
 router.get("/", listarProductos);
 router.get("/:id", obtenerProducto);
-router.post("/", registrarProducto);
-router.put("/:id", editarProducto);
-router.put("/:id", actualizarStock);
-router.delete("/:id", eliminarProducto);
+
+
+router.post("/", verificarToken, registrarProducto);
+router.put("/:id", verificarToken, editarProducto);
+router.put("/:id", verificarToken, actualizarStock);
+router.delete("/:id", verificarToken, eliminarProducto);
 
 export default router;

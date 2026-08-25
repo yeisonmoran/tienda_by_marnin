@@ -8,7 +8,7 @@ datasource db {
 }
 
 model TipoDocumento {
-  id_tipo_documento Int    @id_tipo_documento @default(autoincrement())
+  id_tipo_documento Int    @id @default(autoincrement())
   nombre            String @db.VarChar(80)
   abreviatura       String @db.VarChar(10)
 
@@ -23,7 +23,7 @@ model Rol {
 }
 
 model Usuario {
-  id_usuario      Int      @id_usuario @default(autoincrement())
+  id_usuario      Int      @id @default(autoincrement())
   nombre          String   @db.VarChar(100)
   correo          String   @unique(map: "uk_usuarios_correo") @db.VarChar(100)
   contrasena      String   @db.VarChar(255)
@@ -38,7 +38,7 @@ model Usuario {
 }
 
 model Cliente {
-  id_cliente      Int      @id_cliente @default(autoincrement())
+  id_cliente      Int      @id @default(autoincrement())
   nombre          String   @db.VarChar(100)
   correo          String   @db.VarChar(100)
   telefono        String?  @db.VarChar(20)
@@ -52,7 +52,7 @@ model Cliente {
 }
 
 model Categoria {
-  id_categoria Int     @id_categoria @default(autoincrement())
+  id_categoria Int     @id @default(autoincrement())
   nombre       String  @db.VarChar(80)
   descripcion  String? @db.VarChar(255)
 
@@ -60,7 +60,7 @@ model Categoria {
 }
 
 model Producto {
-  id_producto Int      @id_producto @default(autoincrement())
+  id_producto Int      @id @default(autoincrement())
   codigo      String   @unique(map: "uk_productos_codigo") @db.VarChar(30)
   nombre      String   @db.VarChar(150)
   precio      Decimal  @default(0.00) @db.Decimal(12, 2)
@@ -75,7 +75,7 @@ model Producto {
 }
 
 model Venta {
-  id_venta   Int      @id_venta @default(autoincrement())
+  id_venta   Int      @id @default(autoincrement())
   idCliente  Int      @map("id_cliente")
   idUsuario  Int      @map("id_usuario")
   fecha      DateTime @db.Date
@@ -84,18 +84,22 @@ model Venta {
   metodoPago String   @default("Efectivo") @map("metodo_pago") @db.VarChar(50)
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
 
+  detalles DetalleVenta[]
+
   @@index([idCliente], map: "fk_ventas_cliente")
   @@index([idUsuario], map: "fk_ventas_usuario")
   @@map("ventas")
 }
 
 model DetalleVenta {
-  id_detalle     Int     @id_detalle @default(autoincrement())
+  id_detalle     Int     @id @default(autoincrement())
   idVenta        Int     @map("id_venta")
   idProducto     Int     @map("id_producto")
   cantidad       Int     @default(1)
   precioUnitario Decimal @default(0.00) @map("precio_unitario") @db.Decimal(12, 2)
   subtotal       Decimal @default(0.00) @db.Decimal(14, 2)
+
+  venta Venta @relation(fields: [idVenta], references: [id_venta])
 
   @@index([idProducto], map: "fk_detalle_producto")
   @@index([idVenta], map: "fk_detalle_venta")
