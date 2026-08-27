@@ -11,8 +11,16 @@ function RegistrarCategoria() {
     const manejarSubmit = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:3000/api/categorias", { nombre, descripcion })
+        const token = localStorage.getItem("token");
 
+        axios.post("http://localhost:3000/api/categorias",
+            { nombre, descripcion },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
             .then(respuesta => {
                 setMensaje("Categoria creada con exito: " + respuesta.data.nombre);
                 setNombre("");
@@ -20,7 +28,7 @@ function RegistrarCategoria() {
             })
             .catch(error => {
                 console.error(error)
-                setMensaje("error al crear la categoria");
+                setMensaje("Error al crear categoria");
             });
     };
 
