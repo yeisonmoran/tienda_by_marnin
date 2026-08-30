@@ -1,6 +1,6 @@
 
 import { Router } from "express";
-import {verificarToken} from "../middleware/Auth.middleware.js";
+import { verificarToken } from "../middleware/Auth.middleware.js";
 
 import {
 

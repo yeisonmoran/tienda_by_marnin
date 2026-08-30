@@ -3,7 +3,9 @@ import prisma from "../config/db.js";
 
 export async function listarCategorias(req, res) {
   try {
-    const categorias = await prisma.categoria.findMany();
+    const categorias = await prisma.categoria.findMany({
+      where: { activo: true },
+    });
     res.json(categorias);
   } catch (error) {
     console.error(error);
@@ -77,8 +79,9 @@ export async function eliminarCategoria(req, res) {
   try {
     const { id } = req.params;
 
-    await prisma.categoria.delete({
+    await prisma.categoria.update({
       where: { id_categoria: Number(id) },
+      data: { activo: false },
     });
 
     res.status(204).send();

@@ -7,7 +7,11 @@ import jwt from "jsonwebtoken";
 export async function listarUsuarios(req, res) {
 
     try {
-        const usuarios = await prisma.usuario.findMany();
+        const usuarios = await prisma.usuario.findMany(
+            {
+                where: { activo: true },
+            }
+        );
         res.json(usuarios);
     } catch (error) {
         console.error(error);
@@ -15,6 +19,28 @@ export async function listarUsuarios(req, res) {
 
     }
 }
+
+
+export async function obtenerUsuario(req, res) {
+    try {
+        const { id } = req.params;
+
+        const usuarios = await prisma.usuario.findUnique({
+            where: { id_usuario: Number(id) },
+        });
+
+        if (!usuarios) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+        const { contrasena: _, ...usuarioSinContrasena } = usuarios; 
+        res.json(usuarioSinContrasena);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener usuario" });
+    }
+}
+
 
 
 export async function registrarUsuario(req, res) {
@@ -119,12 +145,13 @@ export async function eliminarUsuario(req, res) {
     try {
         const { id } = req.params;
 
-        await prisma.usuario.delete({
+        await prisma.usuario.update({
 
             where: { id_usuario: Number(id) },
+            data: { activo: false },
         });
 
-        res.status(204).json({ mensaje: "Eiminado correctamente" });
+        res.status(204).send();
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error al eliminar usuario" });
@@ -144,9 +171,9 @@ export async function autenticarUsuario(req, res) {
             where: { correo },
         });
 
-        if (!usuario) {
+        if (!usuario.activo) {
 
-            return res.status(401).json({ error: "Credenciales invalidas" });
+            return res.status(401).json({ error: "credenciales invalidas" });
         }
 
         const coincide = await bcrypt.compare(contrasena, usuario.contrasena);

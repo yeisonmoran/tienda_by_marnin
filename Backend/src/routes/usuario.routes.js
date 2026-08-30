@@ -7,6 +7,7 @@ import {
     editarUsuario,
     eliminarUsuario,
     autenticarUsuario,
+    obtenerUsuario  
 }
 
     from "../controllers/usuario.controller.js";
@@ -14,6 +15,8 @@ import {
 const router = Router();
 
 router.get("/", listarUsuarios);
+router.get("/:id", obtenerUsuario);
+
 router.post("/", registrarUsuario);
 router.put("/:id", editarUsuario);
 router.delete("/:id", eliminarUsuario);

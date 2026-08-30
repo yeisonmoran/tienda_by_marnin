@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Usuarios() {
@@ -17,6 +17,27 @@ function Usuarios() {
             });
     }, []);
 
+        const eliminarUsuario = (id) => {
+        const confirmar = window.confirm("¡Deseas eliminar este usuario!");
+
+        if (!confirmar) return;
+
+        const token = localStorage.getItem("token");
+
+        axios.delete(`http://localhost:3000/api/usuarios/${id}`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+
+            .then(() => {
+                setUsuarios(usuarios.filter(usu => usu.id_usuario !== id));
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+
     return (
         <div>
             <h1>Usuarios</h1>
@@ -25,6 +46,8 @@ function Usuarios() {
                     <li key={usuario.id_usuario}>
                         {usuario.nombre} - {usuario.correo} -
                         {usuario.contrasena} - {usuario.numDocumento}
+                        <Link to={`/usuarios/editar/${usuario.id_usuario}`}>Editar</Link>
+                        <button onClick={() => eliminarUsuario(usuario.id_usuario)}>Eliminar</button>
                     </li>
                 ))}
             </ul>

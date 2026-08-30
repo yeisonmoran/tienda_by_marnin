@@ -31,6 +31,7 @@ model Usuario {
   idTipoDocumento Int      @map("id_tipo_documento")
   numDocumento    String   @map("numero_documento") @db.VarChar(30)
   createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  activo          Boolean  @default(true)
 
   @@index([idRol], map: "fk_usuarios_rol")
   @@index([idTipoDocumento], map: "fk_usuarios_tdoc")
@@ -55,6 +56,7 @@ model Categoria {
   id_categoria Int     @id @default(autoincrement())
   nombre       String  @db.VarChar(80)
   descripcion  String? @db.VarChar(255)
+  activo       Boolean @default(true)
 
   @@map("categorias")
 }
@@ -63,12 +65,14 @@ model Producto {
   id_producto Int      @id @default(autoincrement())
   codigo      String   @unique(map: "uk_productos_codigo") @db.VarChar(30)
   nombre      String   @db.VarChar(150)
+  marca       String?  @db.VarChar(30)
   precio      Decimal  @default(0.00) @db.Decimal(12, 2)
   stock       Int      @default(0)
   stockMinimo Int      @default(5) @map("stock_minimo")
   idCategoria Int      @map("id_categoria")
   descripcion String?  @db.VarChar(255)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  activo      Boolean  @default(true)
 
   @@index([idCategoria], map: "fk_productos_cat")
   @@map("productos")
@@ -84,8 +88,6 @@ model Venta {
   metodoPago String   @default("Efectivo") @map("metodo_pago") @db.VarChar(50)
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
 
-  detalles DetalleVenta[]
-
   @@index([idCliente], map: "fk_ventas_cliente")
   @@index([idUsuario], map: "fk_ventas_usuario")
   @@map("ventas")
@@ -98,8 +100,6 @@ model DetalleVenta {
   cantidad       Int     @default(1)
   precioUnitario Decimal @default(0.00) @map("precio_unitario") @db.Decimal(12, 2)
   subtotal       Decimal @default(0.00) @db.Decimal(14, 2)
-
-  venta Venta @relation(fields: [idVenta], references: [id_venta])
 
   @@index([idProducto], map: "fk_detalle_producto")
   @@index([idVenta], map: "fk_detalle_venta")

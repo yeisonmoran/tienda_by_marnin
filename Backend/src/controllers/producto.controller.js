@@ -4,7 +4,9 @@ import prisma from "../config/db.js";
 
 export async function listarProductos(req, res) {
     try {
-        const productos = await prisma.producto.findMany();
+        const productos = await prisma.producto.findMany({
+            where: { activo: true },
+        });
         res.json(productos);
 
     } catch (error) {
@@ -35,7 +37,7 @@ export async function obtenerProducto(req, res) {
 
 export async function registrarProducto(req, res) {
     try {
-        const { codigo, nombre, idCategoria, precio, stock, stockMinimo, descripcion } = req.body;
+        const { codigo, nombre, marca, idCategoria, precio, stock, stockMinimo, descripcion } = req.body;
 
         if (codigo === undefined || codigo === null || codigo === "") {
 
@@ -47,6 +49,12 @@ export async function registrarProducto(req, res) {
 
             return res.status(400).json({
                 error: "El nombre es obligatorio"
+            });
+        }
+        if (marca === undefined || marca === null || marca === "") {
+
+            return res.status(400).json({
+                error: "La marca es obligatorio"
             });
         }
         if (idCategoria === undefined || idCategoria === null || idCategoria === "") {
@@ -76,7 +84,7 @@ export async function registrarProducto(req, res) {
 
         const nuevoProducto = await prisma.producto.create({
 
-            data: { codigo, nombre, idCategoria, precio, stock, stockMinimo, descripcion },
+            data: { codigo, nombre, marca, idCategoria, precio, stock, stockMinimo, descripcion },
         });
 
         res.status(201).json(nuevoProducto);
@@ -92,14 +100,14 @@ export async function editarProducto(req, res) {
 
     try {
         const { id } = req.params;
-        const { codigo, nombre, precio, stock, stockMinimo, descripcion } = req.body;
+        const { codigo, nombre, marca, precio, stock, stockMinimo, descripcion } = req.body;
 
         if (stock === undefined) {
             return res.status(400).json({ error: "El stock es obligatorio" });
         }
         const productoActualizado = await prisma.producto.update({
             where: { id_producto: Number(id) },
-            data: { codigo, nombre, precio, stock, stockMinimo, descripcion }
+            data: { codigo, nombre, marca, precio, stock, stockMinimo, descripcion },
         });
 
         res.json(productoActualizado);
@@ -141,8 +149,9 @@ export async function eliminarProducto(req, res) {
     try {
         const { id } = req.params;
 
-        await prisma.producto.delete({
+        await prisma.producto.update({
             where: { id_producto: Number(id) },
+            data: { activo: false },
         });
 
         res.status(204).send();

@@ -23,39 +23,33 @@ export async function registrarCliente(req, res) {
 
         if (nombre === undefined || nombre === null || nombre === "") {
 
-            return res.status(400).json({
-                error: "El nombre es obligatorio"
-            });
+            return res.status(400).json({ error: "El nombre es obligatorio" });
         }
         if (!correo) {
 
-            return res.status(400).json({
-                error: "El correo es obligatorio"
-            });
+            return res.status(400).json({ error: "El correo es obligatorio" });
         }
 
         if (correo.length > 60) {
-            return res.status(400).json({
-                error: "Demasiados caracteres minimo 60"
-            });
+            
+            return res.status(400).json({ error: "Demasiados caracteres minimo 60" });
         }
+        if (!/^\d{10}$/.test(telefono)) {
+
+            return res.status(400).json({ error: "El telefono debe contener 10 digitos" });
+        }
+
         if (!idTipoDocumento) {
 
-            return res.status(400).json({
-                error: "El tipo de documento es obligatorio"
-            });
+            return res.status(400).json({ error: "El tipo de documento es obligatorio" });
         }
         if (!numDocumento || numDocumento.trim() === "") {
 
-            return res.status(400).json({
-                error: "El documento es obligatorio"
-            });
+            return res.status(400).json({ error: "El documento es obligatorio" });
         }
         if (numDocumento.length > 10) {
 
-            return res.status(400).json({
-                error: "Solo 10 digitos"
-            });
+            return res.status(400).json({ error: "El documento debe contener 10 digitos" });
         }
 
 
@@ -81,10 +75,16 @@ export async function editarCliente(req, res) {
         const { id } = req.params;
         const { nombre, correo, telefono, ciudad, } = req.body;
 
+        if (!/^\d{10}$/.test(telefono)) {
+
+            return res.status(400).json({ error: "El telefono debe contener 10 digitos" });
+        }
+
         const clienteActualizado = await prisma.cliente.update({
             where: { id_cliente: Number(id) },
             data: { nombre, correo, telefono, ciudad }
         });
+
 
         res.json(clienteActualizado);
 

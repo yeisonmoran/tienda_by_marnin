@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 
 function Clientes() {
 
@@ -17,15 +18,38 @@ function Clientes() {
       });
   }, []);
 
+
+  const eliminarCliente = (id) => {
+    const confirmar = window.confirm("¡Deseas eliminar este cliente!");
+
+    if (!confirmar) return;
+
+    const token = localStorage.getItem("token");
+
+    axios.delete(`http://localhost:3000/api/clientes/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      .then(() => {
+        setClientes(clientes.filter(cli => cli.id_cliente !== id));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+
+
   return (
     <div>
       <h1>Clientes</h1>
       <ul>
         {clientes.map(cliente => (
           <li key={cliente.id_cliente}>
-            {cliente.idCliente} - {cliente.nombre} -
-            {cliente.correo} - {cliente.telefono} -
-            {cliente.ciudad} - {cliente.numDocumento} {cliente.idTipoDocumento}
+            {cliente.nombre} - {cliente.correo} - {cliente.telefono} - {cliente.ciudad}
+            <Link to={`/clientes/editar/${cliente.id_cliente}`}>Editar</Link>
+            <button onClick={() => eliminarCliente(cliente.id_cliente)}>Eliminar</button>
           </li>
         ))}
       </ul>

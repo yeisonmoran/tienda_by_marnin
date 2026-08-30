@@ -6,6 +6,7 @@ function RegistrarProducto() {
 
     const [codigo, setCodigo] = useState("");
     const [nombre, setNombre] = useState("");
+    const [marca, setMarca] = useState("");
     const [idCategoria, setIdCategoria] = useState("");
     const [precio, setPrecio] = useState("");
     const [stock, setStock] = useState("");
@@ -26,7 +27,7 @@ function RegistrarProducto() {
             .catch(error => {
                 console.error(error);
             });
-
+1
     }, []);
 
     const manejarSubmit = (e) => {
@@ -36,7 +37,7 @@ function RegistrarProducto() {
 
         axios.post("http://localhost:3000/api/productos",
             {
-                codigo, nombre, idCategoria: Number(idCategoria), stock: Number(stock),
+                codigo, nombre, marca, idCategoria: Number(idCategoria), stock: Number(stock),
                 precio: Number(precio), stockMinimo: Number(stockMinimo), descripcion
             },
             {
@@ -49,6 +50,7 @@ function RegistrarProducto() {
                 setMensaje("Producto registrado con exito: " + respuesta.data.nombre);
                 setCodigo("");
                 setNombre("");
+                setMarca("");
                 setIdCategoria("");
                 setPrecio("");
                 setStock("");
@@ -77,6 +79,13 @@ function RegistrarProducto() {
                     <input
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Marca: </label>
+                    <input
+                        value={marca}
+                        onChange={(e) => setMarca(e.target.value)}
                     />
                 </div>
                 <div>
