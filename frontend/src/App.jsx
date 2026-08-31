@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Layout from "./layout/Layout";
 import Categoria from "./listCategorias";
 import Producto from "./listProductos";
 import Clientes from "./listClientes"
@@ -17,27 +18,12 @@ import Login from "./pages/Login/Login";
 function App() {
   return (
     <BrowserRouter>
-      <nav className="container">
-        <ul>
-          <li><strong>Sistema Ventas</strong></li>
-        </ul>
-        <ul>
-          <li><Link to="/">Categorias</Link></li>
-          <li><Link to="/list-Productos">Productos</Link></li>
-          <li><Link to="/list-clientes">Clientes</Link></li>
-          <li><Link to="/list-usuarios">Usuarios</Link></li>
-          <li><Link to="/registrar-categoria">Registrar categoria</Link></li>
-          <li><Link to="/registrar-producto">Registrar producto</Link></li>
-          <li><Link to="/registrar-cliente">Registrar cliente</Link></li>
-          <li><Link to="/registrar-usuario">Registrar usuario</Link></li>
-          <li><Link to="/Login-users">Login</Link></li>
-        </ul>
-      </nav>
+      <Routes>
+        <Route path="/Login-users" element={<Login />} />
 
-      <main className="container">
-        <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<Categoria />} />
-          <Route path="/list-Productos" element={<Producto />} />
+          <Route path="/list-productos" element={<Producto />} />
           <Route path="/list-clientes" element={<Clientes />} />
           <Route path="/list-usuarios" element={<Usuarios />} />
           <Route path="/registrar-categoria" element={<RegistrarCategoria />} />
@@ -48,9 +34,8 @@ function App() {
           <Route path="/registrar-producto" element={<RegistrarProducto />} />
           <Route path="/registrar-cliente" element={<RegistrarCliente />} />
           <Route path="/registrar-usuario" element={<RegistrarUsuario />} />
-          <Route path="/Login-users" element={<Login />} />
-        </Routes>
-      </main>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 

@@ -16,7 +16,7 @@ function RegistrarCategoria() {
         axios.post("http://localhost:3000/api/categorias",
             { nombre, descripcion },
             {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`,
                 },
             }
@@ -33,26 +33,27 @@ function RegistrarCategoria() {
     };
 
     return (
-        <div>
-            <h2>Crear categoria</h2>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-4">Crear categoría</h2>
             <form onSubmit={manejarSubmit}>
-                <div>
-                    <label>Nombre: </label>
+                <div className="mb-3">
+                    <label className="form-label">Nombre: </label>
                     <input
+                        className="form-control"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Descripcion: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form label">Descripcion: </label>
+                    <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
-                    /> <br />
-                    <button type="submit">Registrar</button>
+                    />
                 </div>
+                <button type="submit" className="btn btn-primary">Registrar</button>
             </form>
-            {mensaje && <p>{mensaje}</p>}
+            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
     );
 }

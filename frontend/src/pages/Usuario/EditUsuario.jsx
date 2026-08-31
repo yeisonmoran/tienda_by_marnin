@@ -75,33 +75,33 @@ function EditarUsuario() {
 
 
     return (
-        <div>
-            <h2>Editar usuario</h2>
+        <div className="card p-4" style={{maxWidth: "500px"}}>
+            <h2 className="mb-4">Editar usuario</h2>
             <form onSubmit={manejarSubmit}>
-                <div>
-                    <label>Nombre: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Nombre: </label>
+                    <input className="form-control"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Correo: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Correo: </label>
+                    <input className="form-control"
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Contraseña: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Contraseña: </label>
+                    <input className="form-control"
                         value={contrasena}
                         onChange={(e) => setContrasena(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Roles: </label>
-                    <select
+                <div className="mb-3">
+                    <label className="form-label">Roles: </label>
+                    <select className="form-control"
                         value={idRol}
                         onChange={(e) => setIdRol(e.target.value)}
                     >
@@ -113,11 +113,9 @@ function EditarUsuario() {
                         ))}
                     </select>
                 </div>
-                <div>
-                    <button type="submit">Actualizar</button>
-                </div>
+                    <button type="submit" className="btn btn-primary">Actualizar</button>
             </form>
-            {mensaje && <p>{mensaje}</p>}
+            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
     );
 }

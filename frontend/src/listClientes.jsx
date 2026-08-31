@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -12,6 +14,19 @@ function Clientes() {
     axios.get("http://localhost:3000/api/clientes")
       .then(respuesta => {
         setClientes(respuesta.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const [tipo_documentos, setIdTipoDocumentos] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3000/api/tipos-documento")
+      .then(respuesta => {
+        setIdTipoDocumentos(respuesta.data);
       })
       .catch(error => {
         console.error(error);
@@ -44,15 +59,47 @@ function Clientes() {
   return (
     <div>
       <h1>Clientes</h1>
-      <ul>
-        {clientes.map(cliente => (
-          <li key={cliente.id_cliente}>
-            {cliente.nombre} - {cliente.correo} - {cliente.telefono} - {cliente.ciudad}
-            <Link to={`/clientes/editar/${cliente.id_cliente}`}>Editar</Link>
-            <button onClick={() => eliminarCliente(cliente.id_cliente)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+      <div className="mb-3"><Link to="/registrar-cliente" className="btn btn-primary">Nuevo cliente</Link></div>
+
+      <Table striped bordered hover size="sm">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Ciudad</th>
+            <th>Documento</th>
+            <th>Identificación</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clientes.map((cliente, index) => (
+            <tr key={cliente.id_cliente}>
+              <td>{index + 1}</td>
+              <td>{cliente.nombre}</td>
+              <td>{cliente.correo}</td>
+              <td>{cliente.telefono}</td>
+              <td>{cliente.ciudad}</td>
+              <td>
+
+                {tipo_documentos.find(
+
+                  tipoDocuemto => tipoDocuemto.id_tipo_documento === cliente.idTipoDocumento)?.nombre}
+
+              </td>
+              <td>{cliente.numDocumento}</td>
+              <td>
+                <div className="mb-3">
+                  <Button variant="warning" style={{ width: "89px" }}><Link to={`/clientes/editar/${cliente.id_cliente}`}>Editar</Link></Button>
+                </div>
+                <Button variant="danger" onClick={() => eliminarCliente(cliente.id_cliente)}>Eliminar</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 

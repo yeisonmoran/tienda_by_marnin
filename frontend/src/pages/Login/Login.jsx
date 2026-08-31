@@ -31,28 +31,28 @@ function Login() {
     };
 
     return (
-        <div>
-            <h2>Iniciar seccion</h2>
+        <div className="card p-4" style={{maxWidth: "500px"}}>
+            <h2 className="mb-4">Iniciar seccion</h2>
             <form onSubmit={manejarSubmit}>
-                <div>
-                    <label>correo: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">correo: </label>
+                    <input className="form-control"
                         type="email"
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Contraseña: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Contraseña: </label>
+                    <input className="form-control"
                         type="Password"
                         value={contrasena}
                         onChange={(e) => setContrasena(e.target.value)}
                     /> <br />
                 </div>
-                <button type="submit">Ingresar</button>
+                <button className="btn btn-primary" type="submit">Ingresar</button>
             </form>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <div style={{ color: "red" }} className="alert alert-info mt-3">{error}</div>}
         </div>
     );
 }

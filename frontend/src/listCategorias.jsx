@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 
 function Categoria() {
 
@@ -42,17 +45,37 @@ function Categoria() {
 
 
   return (
+
     <div>
-      <h1>Categorias</h1>
-      <ul>
-        {categorias.map(categoria => (
-          <li key={categoria.id_categoria}>
-            {categoria.nombre} - {categoria.descripcion}
-            <Link to={`/categorias/editar/${categoria.id_categoria}`}>Editar</Link>
-            <button onClick={() => eliminarCategoria(categoria.id_categoria)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+      <h1>Categorías</h1>
+
+      <div className="mb-2"><Link to="/registrar-categoria" className="btn btn-primary">Nueva Categoría</Link></div>
+
+      <Table striped bordered hover size="sm">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categorias.map((categoria, index) => (
+            <tr key={categoria.id_categoria}>
+              <td>{index + 1}</td>
+              <td>{categoria.nombre}</td>
+              <td>{categoria.descripcion}</td>
+              <td>
+                <div className="mb-3">
+                  <Button variant="warning" style={{ width: "89px" }}><Link to={`/categorias/editar/${categoria.id_categoria}`}>Editar</Link></Button>
+                </div>
+                <Button variant="danger" onClick={() => eliminarCategoria(categoria.id_categoria)}>Eliminar</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 

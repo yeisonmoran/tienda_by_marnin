@@ -48,26 +48,26 @@ function EditarCategoria() {
     };
 
     return (
-        <div>
-            <h2>Editar categoria</h2>
+        <div className="card p-4," style={{ maxWidth: "500px" }}>
+            <h2 className="mb-4">Editar categoría</h2>
             <form onSubmit={manejarSubmit}>
-                <div>
-                    <label>Nombre: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Nombre: </label>
+                    <input className="form-control"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Descripcion: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Descripcion: </label>
+                    <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
-                    /> <br />
-                    <button type="submit">Guradar</button>
+                    /> 
                 </div>
+                <button className="btn btn-primary" type="submit">Guradar</button>
             </form>
-            {mensaje && <p>{mensaje}</p>}
+            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
     );
 }

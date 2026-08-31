@@ -64,37 +64,37 @@ function RegistrarProducto() {
     };
 
     return (
-        <div>
-            <h2>Crear producto</h2>
+        <div className="card p-4" style={{ maxWidth: "500px"}}>
+            <h2 className="mb-4">Crear producto</h2>
             <form onSubmit={manejarSubmit}>
-                <div>
-                    <label>Codigo: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Codigo: </label>
+                    <input className="form-control"
                         value={codigo}
                         onChange={(e) => setCodigo(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Nombre: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Nombre: </label>
+                    <input className="form-control"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Marca: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Marca: </label>
+                    <input className="form-control"
                         value={marca}
                         onChange={(e) => setMarca(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Categoria: </label>
-                    <select
+                <div className="mb-3">
+                    <label className="form-label">Categoría: </label>
+                    <select className="form-select"
                         value={idCategoria}
                         onChange={(e) => setIdCategoria(e.target.value)}
                     >
-                        <option value="">Selecciona la categoria</option>
+                        <option value="">Selecciona la categoría</option>
                         {categorias.map(categoria => (
                             <option key={categoria.id_categoria} value={categoria.id_categoria}>
                                 {categoria.nombre}
@@ -102,39 +102,37 @@ function RegistrarProducto() {
                         ))}
                     </select>
                 </div>
-                <div>
-                    <label>Precio: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Precio: </label>
+                    <input className="form-control"
                         value={precio}
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Stock: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Stock: </label>
+                    <input className="form-control"
                         value={stock}
                         onChange={(e) => setStock(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Stock Minimo: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Stock Minimo: </label>
+                    <input className="form-control"
                         value={stockMinimo}
                         onChange={(e) => setStockMinimo(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Descripcion: </label>
-                    <input
+                <div className="mb-3">
+                    <label className="form-label">Descripcion: </label>
+                    <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                <div>
-                    <button type="submit">Registrar</button>
-                </div>
+                    <button type="submit" className="btn btn-primary">Registrar</button>
             </form>
-            {mensaje && <p>{mensaje}</p>}
+            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
     );
 }
