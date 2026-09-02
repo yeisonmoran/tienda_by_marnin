@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { verificarToken } from "../middleware/Auth.middleware.js";
+import { verificarRol } from "../middleware/Auth.middleware.js";
 
 import {
+    listarVentas,
     registrarVenta,
     anularVenta,
 }
@@ -10,8 +12,9 @@ import {
 
 const router = Router();
 
+router.get("/", listarVentas);
 
-router.post("/", verificarToken, registrarVenta);
-router.patch("/:id", verificarToken, anularVenta);
+router.post("/", verificarToken, verificarRol(1,2), registrarVenta);
+router.patch("/:id", verificarToken, verificarRol(1), anularVenta);
 
 export default router;

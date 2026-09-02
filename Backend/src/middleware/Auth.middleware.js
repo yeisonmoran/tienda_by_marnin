@@ -25,7 +25,7 @@ export function verificarRol(...rolesPermitidos) {
 
     return (req, res, next) => {
         if (!rolesPermitidos.includes(req.usuario.idRol)) {
-            return res.status(403).json({ error: "No tienesa permisos para esta accion" });
+            return res.status(403).json({ error: "No tienes permisos para esta accion" });
         }
         next();
     };

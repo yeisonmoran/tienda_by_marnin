@@ -137,7 +137,7 @@ function RegistrarUsuario() {
                         onChange={(e) => setNumDocumento(e.target.value)}
                     />
                 </div>
-                    <button type="submit" className="btn btn-primary">Registrar</button>
+                    <button type="submit" className="btn btn-success">Registrar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>

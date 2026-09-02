@@ -1,6 +1,7 @@
 
 import { Router } from "express";
 import { verificarToken } from "../middleware/Auth.middleware.js";
+import { verificarRol } from "../middleware/Auth.middleware.js";
 
 import {
 
@@ -20,8 +21,8 @@ router.get("/", listarCategorias);
 router.get("/:id", obtenerCategoria);
 
 
-router.post("/", verificarToken, registrarCategoria);
-router.put("/:id", verificarToken, editarCategoria);
-router.delete("/:id", verificarToken, eliminarCategoria);
+router.post("/", verificarToken, verificarRol(1), registrarCategoria);
+router.put("/:id", verificarToken, verificarRol(1), editarCategoria);
+router.delete("/:id", verificarToken, verificarRol(1), eliminarCategoria);
 
 export default router;

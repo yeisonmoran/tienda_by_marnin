@@ -48,7 +48,7 @@ function EditarCategoria() {
     };
 
     return (
-        <div className="card p-4," style={{ maxWidth: "500px" }}>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
             <h2 className="mb-4">Editar categoría</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">

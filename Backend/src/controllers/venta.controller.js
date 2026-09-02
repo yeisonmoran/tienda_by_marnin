@@ -1,6 +1,18 @@
 import prisma from "../config/db.js";
 
 
+export async function listarVentas(req, res) {
+
+    try {
+        const ventas = await prisma.venta.findMany();
+        res.json(ventas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al listar ventas" });
+    }
+}
+
+
 export async function registrarVenta(req, res) {
 
     try {
@@ -37,6 +49,8 @@ export async function registrarVenta(req, res) {
 
             if (!producto) {
                 productosConError.push({ idProducto: item.idProducto, motivo: "No existe" });
+
+                continue;
             }
 
             if (producto.stock < item.cantidad) {
@@ -54,7 +68,7 @@ export async function registrarVenta(req, res) {
 
         if (productosConError.length > 0) {
             return res.status(409).json({
-                error: "stock insuficinte",
+                error: "stock_insuficinte",
                 productos: productosConError,
             });
         }
@@ -80,7 +94,7 @@ export async function registrarVenta(req, res) {
                     fecha: new Date(),
                     total,
                     estado: "Completada",
-                    metodoPago: metodoPago || "efectivo, Digital",
+                    metodoPago: metodoPago || "efectivo",
                 },
             });
 

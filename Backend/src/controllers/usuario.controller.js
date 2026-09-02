@@ -8,9 +8,7 @@ export async function listarUsuarios(req, res) {
 
     try {
         const usuarios = await prisma.usuario.findMany(
-            {
-                where: { activo: true },
-            }
+           
         );
         res.json(usuarios);
     } catch (error) {
@@ -32,9 +30,9 @@ export async function obtenerUsuario(req, res) {
         if (!usuarios) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
-        const { contrasena: _, ...usuarioSinContrasena } = usuarios; 
+        const { contrasena: _, ...usuarioSinContrasena } = usuarios;
         res.json(usuarioSinContrasena);
-        
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error al obtener usuario" });

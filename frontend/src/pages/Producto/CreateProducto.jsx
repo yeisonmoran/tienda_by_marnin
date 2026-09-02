@@ -27,7 +27,6 @@ function RegistrarProducto() {
             .catch(error => {
                 console.error(error);
             });
-1
     }, []);
 
     const manejarSubmit = (e) => {
@@ -104,21 +103,21 @@ function RegistrarProducto() {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Precio: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="$"
                         value={precio}
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Stock: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="uds."
                         value={stock}
                         onChange={(e) => setStock(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Stock Minimo: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="uds."
                         value={stockMinimo}
                         onChange={(e) => setStockMinimo(e.target.value)}
                     />
@@ -130,7 +129,7 @@ function RegistrarProducto() {
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                    <button type="submit" className="btn btn-primary">Registrar</button>
+                    <button type="submit" className="btn btn-success">Registrar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>

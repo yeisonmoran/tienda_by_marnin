@@ -21,13 +21,13 @@ function EditarProducto() {
     useEffect(() => {
         axios.get(`http://localhost:3000/api/productos/${id}`)
             .then(respuesta => {
-                setCodigo(respuesta.data.codigo);
-                setNombre(respuesta.data.nombre);
-                setMarca(respuesta.data.marca);
-                setPrecio(respuesta.data.precio);
-                setStock(respuesta.data.stock);
-                setStockMinimo(respuesta.data.stockMinimo);
-                setDescripcion(respuesta.data.descripcion);
+                setCodigo(respuesta.data.codigo || "");
+                setNombre(respuesta.data.nombre || "");
+                setMarca(respuesta.data.marca || "");
+                setPrecio(respuesta.data.precio || "");
+                setStock(respuesta.data.stock || "");
+                setStockMinimo(respuesta.data.stockMinimo || "");
+                setDescripcion(respuesta.data.descripcion || "");
             })
 
             .catch(error => {
@@ -93,21 +93,21 @@ function EditarProducto() {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Precio: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="$"
                         value={precio}
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Stock: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="uds."
                         value={stock}
                         onChange={(e) => setStock(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Stock Minimo: </label>
-                    <input className="form-control"
+                    <input className="form-control" placeholder="uds."
                         value={stockMinimo}
                         onChange={(e) => setStockMinimo(e.target.value)}
                     />
