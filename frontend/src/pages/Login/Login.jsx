@@ -21,7 +21,7 @@ function Login() {
     const manejarSubmit = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:3000/api/usuarios/login", { correo, contrasena })
+        axios.post("${import.meta.env.VITE_API_URL}/api/usuarios/login", { correo, contrasena })
 
             .then(respuesta => {
                 const { token, usuario } = respuesta.data;

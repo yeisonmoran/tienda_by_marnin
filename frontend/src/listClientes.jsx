@@ -16,7 +16,7 @@ function Clientes() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/clientes")
+      .get("${import.meta.env.VITE_API_URL}/api/clientes")
       .then((respuesta) => {
         setClientes(respuesta.data);
       })
@@ -25,7 +25,7 @@ function Clientes() {
       });
 
     axios
-      .get("http://localhost:3000/api/tipos-documento")
+      .get("${import.meta.env.VITE_API_URL}/api/tipos-documento")
       .then((respuesta) => {
         setTipoDocumentos(respuesta.data);
       })
@@ -41,7 +41,7 @@ function Clientes() {
     const token = localStorage.getItem("token");
 
     axios
-      .delete(`http://localhost:3000/api/clientes/${id}`, {
+      .delete(`${import.meta.env.VITE_API_URL}/api/clientes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

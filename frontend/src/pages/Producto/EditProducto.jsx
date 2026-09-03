@@ -19,7 +19,7 @@ function EditarProducto() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/productos/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/productos/${id}`)
             .then(respuesta => {
                 setCodigo(respuesta.data.codigo || "");
                 setNombre(respuesta.data.nombre || "");
@@ -43,7 +43,7 @@ function EditarProducto() {
 
         const token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:3000/api/productos/${id}`,
+        axios.put(`${import.meta.env.VITE_API_URL}/api/productos/${id}`,
             {
                 codigo, nombre, marca, stock: Number(stock),
                 precio: Number(precio), stockMinimo: Number(stockMinimo), descripcion

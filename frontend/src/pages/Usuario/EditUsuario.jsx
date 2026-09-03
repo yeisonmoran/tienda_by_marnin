@@ -17,7 +17,7 @@ function EditarUsuario() {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/roles-users")
+        axios.get("${import.meta.env.VITE_API_URL}/api/roles-users")
 
             .then(respuesta => {
                 setRoles(respuesta.data);
@@ -32,7 +32,7 @@ function EditarUsuario() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/usuarios/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/usuarios/${id}`)
             .then(respuesta => {
                 setNombre(respuesta.data.nombre);
                 setCorreo(respuesta.data.correo);
@@ -52,7 +52,7 @@ function EditarUsuario() {
 
         const token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:3000/api/usuarios/${id}`,
+        axios.put(`${import.meta.env.VITE_API_URL}/api/usuarios/${id}`,
             {
                 nombre, correo, contrasena, idRol: Number(idRol)
             },

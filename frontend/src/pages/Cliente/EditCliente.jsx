@@ -16,7 +16,7 @@ function EditarCliente() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/clientes/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/clientes/${id}`)
             .then(respuesta => {
                 setNombre(respuesta.data.nombre);
                 setCorreo(respuesta.data.correo);
@@ -37,7 +37,7 @@ function EditarCliente() {
 
         const token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:3000/api/clientes/${id}`,
+        axios.put(`${import.meta.env.VITE_API_URL}/api/clientes/${id}`,
             {
                 nombre, correo, telefono, ciudad
             },

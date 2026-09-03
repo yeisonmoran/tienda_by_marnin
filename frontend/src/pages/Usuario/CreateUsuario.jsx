@@ -16,7 +16,7 @@ function RegistrarUsuario() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/tipos-documento")
+        axios.get("${import.meta.env.VITE_API_URL}/api/tipos-documento")
 
             .then(respuesta => {
                 setTipo(respuesta.data);
@@ -31,7 +31,7 @@ function RegistrarUsuario() {
     const [rols, setRols] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/roles-users")
+        axios.get("${import.meta.env.VITE_API_URL}/api/roles-users")
 
             .then(respuesta => {
                 setRols(respuesta.data);
@@ -49,7 +49,7 @@ function RegistrarUsuario() {
 
         const token = localStorage.getItem("token");
 
-        axios.post("http://localhost:3000/api/usuarios",
+        axios.post("${import.meta.env.VITE_API_URL}/api/usuarios",
             {
                 nombre, correo, contrasena, idRol: Number(idRol), idTipoDocumento: Number(idTipoDocumento),
                 numDocumento

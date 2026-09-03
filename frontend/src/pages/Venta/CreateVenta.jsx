@@ -17,7 +17,7 @@ function RegistrarVenta() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/clientes")
+        axios.get("${import.meta.env.VITE_API_URL}/api/clientes")
 
             .then(respuesta => {
                 setClientes(respuesta.data);
@@ -31,7 +31,7 @@ function RegistrarVenta() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/productos")
+        axios.get("${import.meta.env.VITE_API_URL}/api/productos")
 
             .then(respuesta => {
                 setProductos(respuesta.data);
@@ -77,7 +77,7 @@ function RegistrarVenta() {
         }));
 
         axios.post(
-            "http://localhost:3000/api/ventas",
+            "${import.meta.env.VITE_API_URL}/api/ventas",
             {
                 idCliente: Number(idCliente),
                 idUsuario: JSON.parse(localStorage.getItem("usuario")).id_usuario,

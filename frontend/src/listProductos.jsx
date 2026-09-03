@@ -16,7 +16,7 @@ function Producto() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/productos")
+      .get("${import.meta.env.VITE_API_URL}/api/productos")
       .then((respuesta) => {
         setProductos(respuesta.data);
       })
@@ -25,7 +25,7 @@ function Producto() {
       });
 
     axios
-      .get("http://localhost:3000/api/categorias")
+      .get("${import.meta.env.VITE_API_URL}/api/categorias")
       .then((respuesta) => {
         setCategorias(respuesta.data);
       })
@@ -41,7 +41,7 @@ function Producto() {
     const token = localStorage.getItem("token");
 
     axios
-      .delete(`http://localhost:3000/api/productos/${id}`, {
+      .delete(`${import.meta.env.VITE_API_URL}/api/productos/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

@@ -9,7 +9,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/ventas")
+      .get("${import.meta.env.VITE_API_URL}/api/ventas")
       .then((respuesta) => {
         setVentas(respuesta.data);
       })
@@ -18,7 +18,7 @@ function Dashboard() {
       });
 
     axios
-      .get("http://localhost:3000/api/productos")
+      .get("${import.meta.env.VITE_API_URL}/api/productos")
       .then((respuesta) => {
         setProductos(respuesta.data);
       })
@@ -27,7 +27,7 @@ function Dashboard() {
       });
 
     axios
-      .get("http://localhost:3000/api/clientes")
+      .get("${import.meta.env.VITE_API_URL}/api/clientes")
       .then((respuesta) => {
         setClientes(respuesta.data);
       })

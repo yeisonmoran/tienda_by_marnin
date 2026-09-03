@@ -15,7 +15,7 @@ function Categoria() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/categorias")
+      .get("${import.meta.env.VITE_API_URL}/api/categorias")
       .then((respuesta) => {
         setCategorias(respuesta.data);
       })
@@ -31,7 +31,7 @@ function Categoria() {
     const token = localStorage.getItem("token");
 
     axios
-      .delete(`http://localhost:3000/api/categorias/${id}`, {
+      .delete(`${import.meta.env.VITE_API_URL}/api/categorias/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

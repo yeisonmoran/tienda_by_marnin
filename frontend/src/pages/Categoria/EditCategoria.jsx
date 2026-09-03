@@ -14,7 +14,7 @@ function EditarCategoria() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/categorias/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/categorias/${id}`)
             .then(respuesta => {
                 setNombre(respuesta.data.nombre);
                 setDescripcion(respuesta.data.descripcion);
@@ -29,7 +29,7 @@ function EditarCategoria() {
 
         const token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:3000/api/categorias/${id}`,
+        axios.put(`${import.meta.env.VITE_API_URL}/api/categorias/${id}`,
             { nombre, descripcion },
             {
                 headers: {

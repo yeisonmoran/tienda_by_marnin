@@ -9,7 +9,7 @@ function Usuarios() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/usuarios")
+      .get("${import.meta.env.VITE_API_URL}/api/usuarios")
       .then((respuesta) => {
         setUsuarios(respuesta.data);
       })
@@ -18,7 +18,7 @@ function Usuarios() {
       });
 
     axios
-      .get("http://localhost:3000/api/roles-users")
+      .get("${import.meta.env.VITE_API_URL}/api/roles-users")
       .then((respuesta) => {
         setRoles(respuesta.data);
       })
@@ -27,7 +27,7 @@ function Usuarios() {
       });
 
     axios
-      .get("http://localhost:3000/api/tipos-documento")
+      .get("${import.meta.env.VITE_API_URL}/api/tipos-documento")
       .then((respuesta) => {
         setTipoDocumentos(respuesta.data);
       })
@@ -43,7 +43,7 @@ function Usuarios() {
     const token = localStorage.getItem("token");
 
     axios
-      .delete(`http://localhost:3000/api/usuarios/${id}`, {
+      .delete(`${import.meta.env.VITE_API_URL}/api/usuarios/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
