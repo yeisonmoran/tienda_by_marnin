@@ -17,7 +17,7 @@ function EditarUsuario() {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        axios.get("${import.meta.env.VITE_API_URL}/api/roles-users")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/roles-users`)
 
             .then(respuesta => {
                 setRoles(respuesta.data);

@@ -16,7 +16,7 @@ function Clientes() {
 
   useEffect(() => {
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/clientes")
+      .get(`${import.meta.env.VITE_API_URL}/api/clientes`)
       .then((respuesta) => {
         setClientes(respuesta.data);
       })
@@ -25,7 +25,7 @@ function Clientes() {
       });
 
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/tipos-documento")
+      .get(`${import.meta.env.VITE_API_URL}/api/tipos-documento`)
       .then((respuesta) => {
         setTipoDocumentos(respuesta.data);
       })

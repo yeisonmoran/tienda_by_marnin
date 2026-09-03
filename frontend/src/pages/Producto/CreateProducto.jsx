@@ -18,7 +18,7 @@ function RegistrarProducto() {
 
 
     useEffect(() => {
-        axios.get("${import.meta.env.VITE_API_URL}/api/categorias")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/categorias`)
 
             .then(respuesta => {
                 setCategorias(respuesta.data);
@@ -34,7 +34,7 @@ function RegistrarProducto() {
 
         const token = localStorage.getItem("token");
 
-        axios.post("${import.meta.env.VITE_API_URL}/api/productos",
+        axios.post(`${import.meta.env.VITE_API_URL}/api/productos`,
             {
                 codigo, nombre, marca, idCategoria: Number(idCategoria), stock: Number(stock),
                 precio: Number(precio), stockMinimo: Number(stockMinimo), descripcion

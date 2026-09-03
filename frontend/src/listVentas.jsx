@@ -17,7 +17,7 @@ function Ventas() {
 
   useEffect(() => {
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/usuarios")
+      .get(`${import.meta.env.VITE_API_URL}/api/usuarios`)
       .then((respuesta) => {
         setUsuarios(respuesta.data);
       })
@@ -26,7 +26,7 @@ function Ventas() {
       });
 
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/clientes")
+      .get(`${import.meta.env.VITE_API_URL}/api/clientes`)
       .then((respuesta) => {
         setClientes(respuesta.data);
       })
@@ -35,7 +35,7 @@ function Ventas() {
       });
 
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/ventas")
+      .get(`${import.meta.env.VITE_API_URL}/api/ventas`)
       .then((respuesta) => {
         setVentas(respuesta.data);
       })

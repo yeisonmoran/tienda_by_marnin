@@ -16,7 +16,7 @@ function RegistrarCliente() {
 
 
     useEffect(() => {
-        axios.get("${import.meta.env.VITE_API_URL}/api/tipos-documento")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/tipos-documento`)
 
             .then(respuesta => {
                 setTipo(respuesta.data);
@@ -34,7 +34,7 @@ function RegistrarCliente() {
 
         const token = localStorage.getItem("token");
 
-        axios.post("${import.meta.env.VITE_API_URL}/api/clientes",
+        axios.post(`${import.meta.env.VITE_API_URL}/api/clientes`,
             {
                 nombre, correo, telefono, ciudad, idTipoDocumento: Number(idTipoDocumento),
                 numDocumento

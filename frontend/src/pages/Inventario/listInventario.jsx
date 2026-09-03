@@ -8,7 +8,7 @@ function Inventario() {
 
   useEffect(() => {
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/productos")
+      .get(`${import.meta.env.VITE_API_URL}/api/productos`)
       .then((respuesta) => {
         setProductos(respuesta.data);
       })
@@ -17,7 +17,7 @@ function Inventario() {
       });
 
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/categorias")
+      .get(`${import.meta.env.VITE_API_URL}/api/categorias`)
       .then((respuesta) => {
         setCategorias(respuesta.data);
       })

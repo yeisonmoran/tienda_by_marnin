@@ -15,7 +15,7 @@ function Categoria() {
 
   useEffect(() => {
     axios
-      .get("${import.meta.env.VITE_API_URL}/api/categorias")
+      .get(`${import.meta.env.VITE_API_URL}/api/categorias`)
       .then((respuesta) => {
         setCategorias(respuesta.data);
       })
