@@ -84,12 +84,12 @@ function Clientes() {
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
+                  <th>Tipo_doc</th>
+                  <th>Número_doc</th>
                   <th>Nombre</th>
-                  <th>Correo</th>
                   <th>Teléfono</th>
+                  <th>Correo</th>
                   <th>Ciudad</th>
-                  <th>Tipo Doc.</th>
-                  <th>Número Doc.</th>
                   <th className="text-center">Acciones</th>
                 </tr>
               </thead>
@@ -97,10 +97,7 @@ function Clientes() {
                 {clientes.map((cliente, index) => (
                   <tr key={cliente.id_cliente}>
                     <td>{index + 1}</td>
-                    <td className="font-weight-bold">{cliente.nombre}</td>
-                    <td>{cliente.correo}</td>
-                    <td>{cliente.telefono}</td>
-                    <td>{cliente.ciudad}</td>
+
                     <td>
                       <span className="badge bg-light text-dark border">
                         {tipoDocumentos.find(
@@ -108,7 +105,14 @@ function Clientes() {
                         )?.nombre || "N/A"}
                       </span>
                     </td>
+
                     <td>{cliente.numDocumento}</td>
+                    <td>{cliente.nombre}</td>
+                    <td>{cliente.telefono}</td>
+                    <td>{cliente.correo}</td>
+                    <td>{cliente.ciudad}</td>
+
+
                     <td className="text-center">
                       <div className="d-flex justify-content-center gap-1">
                         <Link
@@ -130,6 +134,7 @@ function Clientes() {
                         )}
                       </div>
                     </td>
+                    
                   </tr>
                 ))}
               </tbody>

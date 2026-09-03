@@ -61,38 +61,10 @@ function RegistrarCliente() {
     };
 
     return (
-        <div className="card p-4" style={{ maxWidth: "500px"}}>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
             <h2 className="mb-4">Crear cliente</h2>
             <form onSubmit={manejarSubmit}>
-                <div className="mb-3">
-                    <label className="form-label">Nombre: </label>
-                    <input className="form-control"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="from-label">Correo: </label>
-                    <input className="form-control"
-                        type="email"
-                        value={correo}
-                        onChange={(e) => setCorreo(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Telefono: </label>
-                    <input className="form-control"
-                        value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Ciudad: </label>
-                    <input className="form-control"
-                        value={ciudad}
-                        onChange={(e) => setCiudad(e.target.value)}
-                    />
-                </div>
+
                 <div className="mb-3">
                     <label className="form-label">Identificacion: </label>
                     <select className="form-select"
@@ -115,7 +87,39 @@ function RegistrarCliente() {
                         onChange={(e) => setNumDocumento(e.target.value)}
                     />
                 </div>
-                    <button type="submit" className="btn btn-success">Registrar</button>
+
+                <div className="mb-3">
+                    <label className="form-label">Nombre: </label>
+                    <input className="form-control"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="from-label">Correo: </label>
+                    <input className="form-control"
+                        type="email"
+                        value={correo}
+                        onChange={(e) => setCorreo(e.target.value)}
+                    />
+                </div>
+                
+                <div className="mb-3">
+                    <label className="form-label">Telefono: </label>
+                    <input className="form-control"
+                        value={telefono}
+                        onChange={(e) => setTelefono(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Ciudad: </label>
+                    <input className="form-control"
+                        value={ciudad}
+                        onChange={(e) => setCiudad(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="btn btn-success">Registrar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
