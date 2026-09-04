@@ -113,7 +113,7 @@ function RegistrarVenta() {
                         value={busqueda}
                         onChange={(e) => setBusqueda(e.target.value)}
                     />
-                    {clientes
+                    {busqueda && clientes
                         .filter(cliente => cliente.numDocumento.includes(busqueda))
                         .map(cliente => (
                             <p key={cliente.id_cliente}>
