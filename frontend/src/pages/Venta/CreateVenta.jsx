@@ -5,10 +5,25 @@ import axios from "axios";
 
 function RegistrarVenta() {
 
-    const navigate = useNavigate();
-
-    const [clientes, setClientes] = useState([]);
     const [busqueda, setBusqueda] = useState("");
+    const [mostrarLista, setMostrarLista] = useState(false);
+
+    const seleccionarCliente = (cliente) => {
+        setIdCliente(cliente.id_cliente);
+        setBusqueda(`${cliente.numDocumento} - ${cliente.nombre}`);
+        setMostrarLista(false);
+    };
+
+
+    const clientesFiltrados = clientes.filter(cliente => {
+        const doc = String(cliente.numDocumento || "").toLowerCase();
+        const nombre = String(cliente.nombre || "").toLowerCase();
+        const termino = busqueda.toLowerCase().trim();
+        return doc.includes(termino) || nombre.includes(termino);
+    });
+
+    const navigate = useNavigate();
+    const [clientes, setClientes] = useState([]);
     const [metodoPago, setMetodoPago] = useState("efectivo");
     const [productos, setProductos] = useState([]);
     const [idCliente, setIdCliente] = useState("");
@@ -107,19 +122,52 @@ function RegistrarVenta() {
             <h1>Registrar Venta</h1>
             <form onSubmit={manejarSubmit}>
 
-                <div className="mb-3">
+                <div className="mb-3 position-relative">
                     <label className="form-label">Cliente</label>
                     <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Escribe documento o nombre del cliente..."
                         value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
+                        onChange={(e) => {
+                            setBusqueda(e.target.value);
+                            setIdCliente("");
+                            setMostrarLista(true);
+                        }}
+                        onFocus={() => {
+                            if (busqueda) setMostrarLista(true);
+                        }}
                     />
-                    {busqueda && clientes
-                        .filter(cliente => cliente.numDocumento.includes(busqueda))
-                        .map(cliente => (
-                            <p key={cliente.id_cliente}>
-                                {cliente.numDocumento} - {cliente.nombre}
-                            </p>
-                        ))}
+
+                    {mostrarLista && busqueda && !idCliente && (
+                        <ul
+                            className="list-group position-absolute w-100 shadow mt-1"
+                            style={{ zIndex: 1000, maxHeight: "200px", overflowY: "auto" }}
+                        >
+                            {clientesFiltrados.length > 0 ? (
+                                clientesFiltrados.map(cliente => (
+                                    <li
+                                        key={cliente.id_cliente}
+                                        className="list-group-item list-group-item-action"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => seleccionarCliente(cliente)}
+                                    >
+                                        <strong>{cliente.numDocumento}</strong> - {cliente.nombre}
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="list-group-item text-muted">
+                                    No se encontraron clientes
+                                </li>
+                            )}
+                        </ul>
+                    )}
+
+                    {idCliente && (
+                        <small className="text-success d-block mt-1">
+                            ✓ Cliente seleccionado correctamente
+                        </small>
+                    )}
                 </div>
 
                 <div className="mb-3">
