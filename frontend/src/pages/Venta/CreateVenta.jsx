@@ -8,6 +8,7 @@ function RegistrarVenta() {
     const navigate = useNavigate();
 
     const [clientes, setClientes] = useState([]);
+    const [busqueda, setBusqueda] = useState("");
     const [metodoPago, setMetodoPago] = useState("efectivo");
     const [productos, setProductos] = useState([]);
     const [idCliente, setIdCliente] = useState("");
@@ -105,20 +106,20 @@ function RegistrarVenta() {
         <div>
             <h1>Registrar Venta</h1>
             <form onSubmit={manejarSubmit}>
+
                 <div className="mb-3">
                     <label className="form-label">Cliente</label>
-                    <select
-                        className="form-select"
-                        value={idCliente}
-                        onChange={(e) => setIdCliente(e.target.value)}
-                    >
-                        <option value="">-- Selecciona un cliente --</option>
-                        {clientes.map(cliente => (
-                            <option key={cliente.id_cliente} value={cliente.id_cliente}>
-                                {cliente.nombre}
-                            </option>
+                    <input
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
+                    />
+                    {clientes
+                        .filter(cliente => cliente.numDocumento.includes(busqueda))
+                        .map(cliente => (
+                            <p key={cliente.id_cliente}>
+                                {cliente.numDocumento} - {cliente.nombre}
+                            </p>
                         ))}
-                    </select>
                 </div>
 
                 <div className="mb-3">
