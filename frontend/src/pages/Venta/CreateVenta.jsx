@@ -5,8 +5,16 @@ import axios from "axios";
 
 function RegistrarVenta() {
 
+    const navigate = useNavigate();
+    
     const [busqueda, setBusqueda] = useState("");
     const [mostrarLista, setMostrarLista] = useState(false);
+    const [clientes, setClientes] = useState([]);
+    const [metodoPago, setMetodoPago] = useState("efectivo");
+    const [productos, setProductos] = useState([]);
+    const [idCliente, setIdCliente] = useState("");
+    const [detalles, setDetalles] = useState([{ idProducto: "", cantidad: 1 }]);
+    const [mensaje, setMensaje] = useState("");
 
     const seleccionarCliente = (cliente) => {
         setIdCliente(cliente.id_cliente);
@@ -22,13 +30,7 @@ function RegistrarVenta() {
         return doc.includes(termino) || nombre.includes(termino);
     });
 
-    const navigate = useNavigate();
-    const [clientes, setClientes] = useState([]);
-    const [metodoPago, setMetodoPago] = useState("efectivo");
-    const [productos, setProductos] = useState([]);
-    const [idCliente, setIdCliente] = useState("");
-    const [detalles, setDetalles] = useState([{ idProducto: "", cantidad: 1 }]);
-    const [mensaje, setMensaje] = useState("");
+
 
 
 
