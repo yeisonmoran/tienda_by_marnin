@@ -82,7 +82,6 @@ function Producto() {
                   <th>Marca</th>
                   <th>Categoría</th>
                   <th>Precio</th>
-                  <th>Stock</th>
                   <th>Mínimo</th>
                   <th>Descripción</th>
                   {esAdmin && <th className="text-center">Acciones</th>}
@@ -104,17 +103,6 @@ function Producto() {
                       </span>
                     </td>
                     <td>${Number(producto.precio).toLocaleString("es-CO")}</td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          Number(producto.stock) <= Number(producto.stockMinimo)
-                            ? "bg-danger"
-                            : "bg-success"
-                        }`}
-                      >
-                        {producto.stock} uds.
-                      </span>
-                    </td>
                     <td>{producto.stockMinimo} uds.</td>
                     <td>{producto.descripcion}</td>
                     {esAdmin && (
