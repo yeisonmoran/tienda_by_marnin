@@ -62,33 +62,34 @@ model Categoria {
 }
 
 model Producto {
-  id_producto Int      @id @default(autoincrement())
-  codigo      String   @unique(map: "uk_productos_codigo") @db.VarChar(30)
-  nombre      String   @db.VarChar(150)
-  marca       String?  @db.VarChar(30)
-  precio      Decimal  @default(0.00) @db.Decimal(12, 2)
-  stock       Int      @default(0)
-  stockMinimo Int      @default(5) @map("stock_minimo")
-  idCategoria Int      @map("id_categoria")
-  descripcion String?  @db.VarChar(255)
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  activo      Boolean  @default(true)
+  id_producto   Int      @id @default(autoincrement())
+  codigo        String   @unique(map: "uk_productos_codigo") @db.VarChar(30)
+  nombre        String   @db.VarChar(150)
+  marca         String?  @db.VarChar(30)
+  linea         String?  @db.VarChar(70)
+  precio        Decimal  @default(0.00) @db.Decimal(12, 2)
+  stock         Int      @default(0)
+  stockMinimo   Int      @default(5) @map("stock_minimo")
+  idCategoria   Int      @map("id_categoria")
+  descripcion   String?  @db.VarChar(255)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  activo        Boolean  @default(true)
+  precioCompra Decimal  @default(0.00) @map("precio_compra") @db.Decimal(12, 2)
 
   @@index([idCategoria], map: "fk_productos_cat")
   @@map("productos")
 }
 
 model Venta {
-  id_venta   Int      @id @default(autoincrement())
-  idCliente  Int      @map("id_cliente")
-  idUsuario  Int      @map("id_usuario")
-  fecha      DateTime @db.Date
-  total      Decimal  @default(0.00) @db.Decimal(14, 2)
-  estado     String   @default("Completada") @db.VarChar(30)
-  metodoPago String   @default("Efectivo") @map("metodo_pago") @db.VarChar(50)
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-
-  detalles DetalleVenta[]
+  id_venta   Int            @id @default(autoincrement())
+  idCliente  Int            @map("id_cliente")
+  idUsuario  Int            @map("id_usuario")
+  fecha      DateTime       @db.Date
+  total      Decimal        @default(0.00) @db.Decimal(14, 2)
+  estado     String         @default("Completada") @db.VarChar(30)
+  metodoPago String         @default("Efectivo") @map("metodo_pago") @db.VarChar(50)
+  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
+  detalles   DetalleVenta[]
 
   @@index([idCliente], map: "fk_ventas_cliente")
   @@index([idUsuario], map: "fk_ventas_usuario")
@@ -102,8 +103,8 @@ model DetalleVenta {
   cantidad       Int     @default(1)
   precioUnitario Decimal @default(0.00) @map("precio_unitario") @db.Decimal(12, 2)
   subtotal       Decimal @default(0.00) @db.Decimal(14, 2)
-
-  venta Venta @relation(fields: [idVenta], references: [id_venta])
+  costoUnitario Decimal @default(0.00) @map("costo_unitario") @db.Decimal(12, 2)
+  venta          Venta   @relation(fields: [idVenta], references: [id_venta])
 
   @@index([idProducto], map: "fk_detalle_producto")
   @@index([idVenta], map: "fk_detalle_venta")

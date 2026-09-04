@@ -68,7 +68,7 @@ export async function registrarVenta(req, res) {
 
         if (productosConError.length > 0) {
             return res.status(409).json({
-                error: "stock_insuficinte",
+                error: "stock_insuficiente",
                 productos: productosConError,
             });
         }
@@ -82,7 +82,9 @@ export async function registrarVenta(req, res) {
             return {
                 idProducto: producto.id_producto,
                 cantidad,
-                precioUnitario: producto.precio, subtotal,
+                precioUnitario: producto.precio,
+                costoUnitario: producto.precioCompra,
+                subtotal,
             };
         });
 
@@ -105,6 +107,7 @@ export async function registrarVenta(req, res) {
                         idProducto: linea.idProducto,
                         cantidad: linea.cantidad,
                         precioUnitario: linea.precioUnitario,
+                        costoUnitario: linea.costoUnitario,
                         subtotal: linea.subtotal,
                     },
                 });
@@ -127,9 +130,29 @@ export async function registrarVenta(req, res) {
 }
 
 
-/*Funcion para anular ventas
-En el momento en el que se anule una venta, el stock de los productos descontados
-Vulven a sumarce sastifactoriamente*/
+export async function obtenerGananciaVenta(req, res) {
+
+    try {
+        const { id } = req.params;
+
+        const detalles = await prisma.detalleVenta.findMany({
+            where: { idVenta: Number(id) },
+        });
+
+        const ganancia = detalles.reduce((total, linea) =>{
+            const gananciaLinea = (Number(linea.precioUnitario) - Number(linea.costoUnitario)) * linea.cantidad;
+            return total + gananciaLinea;
+        }, 0);
+
+        res.json({ganancia});
+
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).json({error: "Error al calcular ganancia"});
+    }
+}
+
 
 export async function anularVenta(req, res) {
 
@@ -182,4 +205,7 @@ export async function anularVenta(req, res) {
     }
 
 }
+
+
+
 

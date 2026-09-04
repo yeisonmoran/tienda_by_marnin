@@ -37,12 +37,12 @@ export async function obtenerProducto(req, res) {
 
 export async function registrarProducto(req, res) {
     try {
-        const { codigo, nombre, marca, idCategoria, precio, stock, stockMinimo, descripcion } = req.body;
+        const { codigo, nombre, marca, linea, idCategoria, precio, precioCompra, stock, stockMinimo, descripcion } = req.body;
 
         if (codigo === undefined || codigo === null || codigo === "") {
 
             return res.status(400).json({
-                error: "El codigo es obligatorio"
+                error: "El código es obligatorio"
             });
         }
         if (nombre === undefined || nombre === null || nombre === "") {
@@ -55,7 +55,7 @@ export async function registrarProducto(req, res) {
         if (idCategoria === undefined || idCategoria === null || idCategoria === "") {
 
             return res.status(400).json({
-                error: "La categoria es obligatoria"
+                error: "La categoría es obligatoria"
             });
         }
         if (precio === undefined || precio === null || precio === "") {
@@ -64,6 +64,14 @@ export async function registrarProducto(req, res) {
                 error: "El precio es obligatorio"
             });
         }
+
+         if (precioCompra === undefined || precioCompra === null || precioCompra === "") {
+
+            return res.status(400).json({
+                error: "El precio de compra es obligatorio"
+            });
+        }
+
         if (stock === undefined || stock === null || stock === "") {
 
             return res.status(400).json({
@@ -73,13 +81,13 @@ export async function registrarProducto(req, res) {
         if (stockMinimo === undefined || stockMinimo === null || stockMinimo === "") {
 
             return res.status(400).json({
-                error: "El stock minimo es obligatorio"
+                error: "El stock mínimo es obligatorio"
             });
         }
 
         const nuevoProducto = await prisma.producto.create({
 
-            data: { codigo, nombre, marca, idCategoria, precio, stock, stockMinimo, descripcion },
+            data: { codigo, nombre, marca, linea, idCategoria, precio, precioCompra, stock, stockMinimo, descripcion },
         });
 
         res.status(201).json(nuevoProducto);
@@ -95,14 +103,14 @@ export async function editarProducto(req, res) {
 
     try {
         const { id } = req.params;
-        const { codigo, nombre, marca, precio, stock, stockMinimo, descripcion } = req.body;
+        const { codigo, nombre, marca, linea, precio, precioCompra, stock, stockMinimo, descripcion } = req.body;
 
         if (stock === undefined) {
             return res.status(400).json({ error: "El stock es obligatorio" });
         }
         const productoActualizado = await prisma.producto.update({
             where: { id_producto: Number(id) },
-            data: { codigo, nombre, marca, precio, stock, stockMinimo, descripcion },
+            data: { codigo, nombre, marca, linea, precio, precioCompra, stock, stockMinimo, descripcion },
         });
 
         res.json(productoActualizado);

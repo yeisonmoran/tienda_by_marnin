@@ -80,8 +80,10 @@ function Producto() {
                   <th>Código</th>
                   <th>Nombre</th>
                   <th>Marca</th>
+                  <th>Línea</th>
                   <th>Categoría</th>
                   <th>Precio</th>
+                  <th>Precio compra</th>
                   <th>Mínimo</th>
                   <th>Descripción</th>
                   {esAdmin && <th className="text-center">Acciones</th>}
@@ -94,6 +96,7 @@ function Producto() {
                     <td>{producto.codigo}</td>
                     <td className="font-weight-bold">{producto.nombre}</td>
                     <td>{producto.marca}</td>
+                    <td>{producto.linea}</td>
                     <td>
                       <span className="badge bg-info text-white">
                         {categorias.find(
@@ -103,6 +106,7 @@ function Producto() {
                       </span>
                     </td>
                     <td>${Number(producto.precio).toLocaleString("es-CO")}</td>
+                    <td>${Number(producto.precioCompra).toLocaleString("es-CO")}</td>
                     <td>{producto.stockMinimo} uds.</td>
                     <td>{producto.descripcion}</td>
                     {esAdmin && (

@@ -11,7 +11,9 @@ function EditarProducto() {
     const [codigo, setCodigo] = useState("");
     const [nombre, setNombre] = useState("");
     const [marca, setMarca] = useState("");
+    const [linea, setLinea] = useState("");
     const [precio, setPrecio] = useState("");
+    const [precioCompra, setPrecioCompra] = useState("");
     const [stock, setStock] = useState("");
     const [stockMinimo, setStockMinimo] = useState("");
     const [descripcion, setDescripcion] = useState("");
@@ -24,7 +26,9 @@ function EditarProducto() {
                 setCodigo(respuesta.data.codigo || "");
                 setNombre(respuesta.data.nombre || "");
                 setMarca(respuesta.data.marca || "");
+                setLinea(respuesta.data.linea || "");
                 setPrecio(respuesta.data.precio || "");
+                setPrecioCompra(respuesta.data.precioCompra || "");
                 setStock(respuesta.data.stock || "");
                 setStockMinimo(respuesta.data.stockMinimo || "");
                 setDescripcion(respuesta.data.descripcion || "");
@@ -45,8 +49,8 @@ function EditarProducto() {
 
         axios.put(`${import.meta.env.VITE_API_URL}/api/productos/${id}`,
             {
-                codigo, nombre, marca, stock: Number(stock),
-                precio: Number(precio), stockMinimo: Number(stockMinimo), descripcion
+                codigo, nombre, marca, linea, stock: Number(stock),
+                precio: Number(precio), precioCompra: Number(precioCompra), stockMinimo: Number(stockMinimo), descripcion
             },
             {
                 headers: {
@@ -55,7 +59,7 @@ function EditarProducto() {
             }
         )
             .then((respuesta) => {
-                setMensaje("Producto actualizado con exito: " + respuesta.data.nombre);
+                setMensaje("Producto actualizado con éxito: " + respuesta.data.nombre);
                 navigate("/");
             })
             .catch(error => {
@@ -71,7 +75,7 @@ function EditarProducto() {
             <h2 className="">Editar producto</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
-                    <label className="form-label">Codigo: </label>
+                    <label className="form-label">Código: </label>
                     <input className="form-control"
                         value={codigo}
                         onChange={(e) => setCodigo(e.target.value)}
@@ -92,12 +96,30 @@ function EditarProducto() {
                     />
                 </div>
                 <div className="mb-3">
+                    <label className="form-label">Línea: </label>
+                    <input className="form-control"
+                        value={linea}
+                        onChange={(e) => setLinea(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
                     <label className="form-label">Precio: </label>
                     <input className="form-control" placeholder="$"
                         value={precio}
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                 </div>
+
+                 <div className="mb-3">
+                    <label className="form-label">Precio de compra: </label>
+                    <input
+                        className="form-control"
+                        type="number"
+                        value={precioCompra}
+                        onChange={(e) => setPrecioCompra(e.target.value)}
+                    />
+                </div>
+                
                 <div className="mb-3">
                     <label className="form-label">Stock: </label>
                     <input className="form-control" placeholder="uds."
@@ -106,14 +128,14 @@ function EditarProducto() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Stock Minimo: </label>
+                    <label className="form-label">Stock Mínimo: </label>
                     <input className="form-control" placeholder="uds."
                         value={stockMinimo}
                         onChange={(e) => setStockMinimo(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Descripcion: </label>
+                    <label className="form-label">Descripción: </label>
                     <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}

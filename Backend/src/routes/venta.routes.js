@@ -6,6 +6,7 @@ import {
     listarVentas,
     registrarVenta,
     anularVenta,
+    obtenerGananciaVenta,
 }
 
     from "../controllers/venta.controller.js";
@@ -16,5 +17,6 @@ router.get("/", listarVentas);
 
 router.post("/", verificarToken, verificarRol(1,2), registrarVenta);
 router.patch("/:id", verificarToken, verificarRol(1), anularVenta);
+router.get("/:id/ganancia", verificarToken, verificarRol(1), obtenerGananciaVenta);
 
 export default router;

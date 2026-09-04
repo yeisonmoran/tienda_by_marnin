@@ -7,12 +7,15 @@ function RegistrarProducto() {
     const [codigo, setCodigo] = useState("");
     const [nombre, setNombre] = useState("");
     const [marca, setMarca] = useState("");
+    const [linea, setLinea] = useState("");
     const [idCategoria, setIdCategoria] = useState("");
     const [precio, setPrecio] = useState("");
+    const [precioCompra, setPrecioCompra] = useState("");
     const [stock, setStock] = useState("");
     const [stockMinimo, setStockMinimo] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [mensaje, setMensaje] = useState("");
+
 
     const [categorias, setCategorias] = useState([]);
 
@@ -36,8 +39,8 @@ function RegistrarProducto() {
 
         axios.post(`${import.meta.env.VITE_API_URL}/api/productos`,
             {
-                codigo, nombre, marca, idCategoria: Number(idCategoria), stock: Number(stock),
-                precio: Number(precio), stockMinimo: Number(stockMinimo), descripcion
+                codigo, nombre, marca, linea, idCategoria: Number(idCategoria), stock: Number(stock),
+                precio: Number(precio), precioCompra: Number(precioCompra), stockMinimo: Number(stockMinimo), descripcion
             },
             {
                 headers: {
@@ -46,12 +49,14 @@ function RegistrarProducto() {
             }
         )
             .then(respuesta => {
-                setMensaje("Producto registrado con exito: " + respuesta.data.nombre);
+                setMensaje("Producto registrado con éxito: " + respuesta.data.nombre);
                 setCodigo("");
                 setNombre("");
                 setMarca("");
+                setLinea("");
                 setIdCategoria("");
                 setPrecio("");
+                setPrecioCompra("");
                 setStock("");
                 setStockMinimo("");
                 setDescripcion("");
@@ -63,11 +68,11 @@ function RegistrarProducto() {
     };
 
     return (
-        <div className="card p-4" style={{ maxWidth: "500px"}}>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
             <h2 className="mb-4">Crear producto</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
-                    <label className="form-label">Codigo: </label>
+                    <label className="form-label">Código: </label>
                     <input className="form-control"
                         value={codigo}
                         onChange={(e) => setCodigo(e.target.value)}
@@ -85,6 +90,13 @@ function RegistrarProducto() {
                     <input className="form-control"
                         value={marca}
                         onChange={(e) => setMarca(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Línea: </label>
+                    <input className="form-control"
+                        value={linea}
+                        onChange={(e) => setLinea(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
@@ -108,6 +120,18 @@ function RegistrarProducto() {
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                 </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Precio de compra: </label>
+                    <input
+                        className="form-control"
+                        type="number"
+                        value={precioCompra}
+                        onChange={(e) => setPrecioCompra(e.target.value)}
+                    />
+                </div>
+
+
                 <div className="mb-3">
                     <label className="form-label">Stock: </label>
                     <input className="form-control" placeholder="uds."
@@ -116,20 +140,20 @@ function RegistrarProducto() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Stock Minimo: </label>
+                    <label className="form-label">Stock Mínimo: </label>
                     <input className="form-control" placeholder="uds."
                         value={stockMinimo}
                         onChange={(e) => setStockMinimo(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Descripcion: </label>
+                    <label className="form-label">Descripción: </label>
                     <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                    <button type="submit" className="btn btn-success">Registrar</button>
+                <button type="submit" className="btn btn-success">Registrar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
