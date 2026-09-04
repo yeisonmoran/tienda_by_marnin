@@ -34,10 +34,6 @@ export async function registrarCliente(req, res) {
             
             return res.status(400).json({ error: "Demasiados caracteres minimo 60" });
         }
-        if (!/^\d{10}$/.test(telefono)) {
-
-            return res.status(400).json({ error: "El telefono debe contener 10 digitos" });
-        }
 
         if (!idTipoDocumento) {
 
@@ -74,11 +70,6 @@ export async function editarCliente(req, res) {
     try {
         const { id } = req.params;
         const { nombre, correo, telefono, ciudad, } = req.body;
-
-        if (!/^\d{10}$/.test(telefono)) {
-
-            return res.status(400).json({ error: "El telefono debe contener 10 digitos" });
-        }
 
         const clienteActualizado = await prisma.cliente.update({
             where: { id_cliente: Number(id) },

@@ -51,12 +51,7 @@ export async function registrarProducto(req, res) {
                 error: "El nombre es obligatorio"
             });
         }
-        if (marca === undefined || marca === null || marca === "") {
-
-            return res.status(400).json({
-                error: "La marca es obligatorio"
-            });
-        }
+    
         if (idCategoria === undefined || idCategoria === null || idCategoria === "") {
 
             return res.status(400).json({
