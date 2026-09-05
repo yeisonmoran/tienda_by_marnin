@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Link from "react-router-dom";
 
 
 function RegistrarUsuario() {
@@ -76,7 +77,7 @@ function RegistrarUsuario() {
     };
 
     return (
-        <div className="card p-4" style={{maxWidth: "500px"}}>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
             <h2 className="mb-4">Nuevo usuario</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
@@ -97,7 +98,7 @@ function RegistrarUsuario() {
                 <div className="mb-3">
                     <label className="form-label">Contraseña: </label>
                     <input className="form-control"
-                    type="password"
+                        type="password"
                         value={contrasena}
                         onChange={(e) => setContrasena(e.target.value)}
                     />
@@ -137,7 +138,10 @@ function RegistrarUsuario() {
                         onChange={(e) => setNumDocumento(e.target.value)}
                     />
                 </div>
-                    <button type="submit" className="btn btn-success">Registrar</button>
+                <button type="submit" className="btn btn-success">Registrar</button>
+                <Link to="/list-usuarios" className="btn btn-secondary btn-sm">
+                    <i className="fas fa-arrow-left mr-1"></i> Cancelar
+                </Link>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
