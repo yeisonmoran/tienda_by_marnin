@@ -173,7 +173,7 @@ export async function obtenerVenta(req, res) {
 
             let gananciaTotal = 0;
             venta.detalles = venta.detalles.map(linea => {
-                const ganancia = (Number(linea.precioUnitario) - (linea.costoUnitario)) * linea.cantidad;
+                const ganancia = (Number(linea.precioUnitario) - Number(linea.costoUnitario || 0)) * linea.cantidad;
                 gananciaTotal += ganancia;
                 return { ...linea, ganancia };
             });

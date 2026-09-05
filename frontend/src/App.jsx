@@ -40,6 +40,7 @@ function App() {
             <Route path="/inventario" element={<Inventario />} />
             <Route path="/no-autorizado" element={<NoAutorizado />}></Route>
             <Route path="/ventas/detalle/:id" element={<DetalleVenta />}></Route>
+            <Route path="/venta/detalle/:id" element={<DetalleVenta />}></Route>
 
             <Route element={<RutaAdmin />}>
               <Route path="/list-usuarios" element={<Usuarios />} />

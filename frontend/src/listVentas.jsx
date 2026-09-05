@@ -149,7 +149,7 @@ function Ventas() {
                             <i className="fas fa-ban mr-1"></i> Anular
                           </button>
                         )}
-                        <Link to={`/venta/detalle/${venta.id_venta}`} className="btn btn-info btn-sm me-2">
+                        <Link to={`/ventas/detalle/${venta.id_venta}`} className="btn btn-info btn-sm me-2">
                           Ver detalle
                         </Link>
                       </td>
