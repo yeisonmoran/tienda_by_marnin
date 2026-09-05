@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Form from "react-bootstrap-Form";
 import axios from "axios";
 
 function Login() {
@@ -86,6 +87,9 @@ function Login() {
                                                 <button type="submit" className="btn btn-primary btn-user btn-block w-100">
                                                     Iniciar sesión
                                                 </button>
+                                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                                    <Form.Check type="checkbox" label="Check me out" />
+                                                </Form.Group>
                                             </form>
                                             {error && (
                                                 <div className="alert alert-danger mt-3 text-center">{error}</div>
