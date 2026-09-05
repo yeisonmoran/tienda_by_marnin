@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 
@@ -71,7 +72,7 @@ function EditarProducto() {
 
 
     return (
-        <div className="card p-4" style={{maxWidth: "500px"}}>
+        <div className="card p-4" style={{ maxWidth: "500px" }}>
             <h2 className="">Editar producto</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
@@ -110,7 +111,7 @@ function EditarProducto() {
                     />
                 </div>
 
-                 <div className="mb-3">
+                <div className="mb-3">
                     <label className="form-label">Precio de compra: </label>
                     <input
                         className="form-control"
@@ -119,7 +120,7 @@ function EditarProducto() {
                         onChange={(e) => setPrecioCompra(e.target.value)}
                     />
                 </div>
-                
+
                 <div className="mb-3">
                     <label className="form-label">Stock: </label>
                     <input className="form-control" placeholder="uds."
@@ -141,7 +142,13 @@ function EditarProducto() {
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                    <button type="submit" className="btn btn-primary">Actualizar</button>
+                <div className="d-flex aling-items-center gap-2 mt-4">
+                    <button type="submit" className="btn btn-primary">
+                        <i className="fas fa-check me-1"></i>Actualizar</button>
+                    <Link to="/list-productos" className="btn btn-secondary">
+                        <i className="fas fa-arrow-left me-1"></i> Cancelar
+                    </Link>
+                </div>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>

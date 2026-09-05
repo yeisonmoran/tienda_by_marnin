@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 
@@ -153,7 +154,13 @@ function RegistrarProducto() {
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                <button type="submit" className="btn btn-success">Registrar</button>
+                 <div className="d-flex aling-items-center gap-2 mt-4">
+                    <button type="submit" className="btn btn-success">
+                        <i className="fas fa-check me-1"></i>Registrar</button>
+                    <Link to="/list-productos" className="btn btn-secondary">
+                        <i className="fas fa-arrow-left me-1"></i> Cancelar
+                    </Link>
+                </div>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
