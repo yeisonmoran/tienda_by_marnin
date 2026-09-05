@@ -47,13 +47,7 @@ function Layout() {
                 >
                   <i className="fas fa-user-circle fa-lg"></i>
                 </div>
-                <button
-                  onClick={cerrarSesion}
-                  className="btn btn-sm btn-outline-danger ml-3"
-                  title="Cerrar sesión"
-                  type="button"
-                >
-                </button>
+              
               </li>
             </ul>
           </nav>
