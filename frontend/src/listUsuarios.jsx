@@ -86,10 +86,10 @@ function Usuarios() {
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
+                  <th>Tipo Documento</th>
+                  <th>Documento</th>
                   <th>Nombre</th>
                   <th>Correo</th>
-                  <th>Tipo Doc.</th>
-                  <th>Documento</th>
                   <th>Rol</th>
                   <th>Estado</th>
                   <th className="text-center">Acciones</th>
@@ -99,29 +99,35 @@ function Usuarios() {
                 {usuarios.map((usuario, index) => (
                   <tr key={usuario.id_usuario}>
                     <td>{index + 1}</td>
-                    <td className="font-weight-bold">{usuario.nombre}</td>
-                    <td>{usuario.correo}</td>
+
                     <td>
                       {tipoDocumentos.find(
                         (t) => t.id_tipo_documento === usuario.idTipoDocumento
                       )?.nombre || "N/A"}
                     </td>
+
                     <td>{usuario.numDocumento}</td>
+
+                    <td className="font-weight-bold">{usuario.nombre}</td>
+
+                    <td>{usuario.correo}</td>
+
                     <td>
                       <span className="badge bg-primary text-white">
                         {roles.find((rol) => rol.id_rol === usuario.idRol)
                           ?.nombreRol || "Usuario"}
                       </span>
                     </td>
+
                     <td>
                       <span
-                        className={`badge ${
-                          usuario.activo ? "bg-success" : "bg-danger"
-                        }`}
+                        className={`badge ${usuario.activo ? "bg-success" : "bg-danger"
+                          }`}
                       >
                         {usuario.activo ? "Activo" : "Inactivo"}
                       </span>
                     </td>
+
                     <td className="text-center">
                       <div className="d-flex justify-content-center gap-1">
                         <Link
