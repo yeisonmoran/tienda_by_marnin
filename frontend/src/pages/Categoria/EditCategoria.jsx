@@ -59,13 +59,13 @@ function EditarCategoria() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Descripcion: </label>
+                    <label className="form-label">Descripción: </label>
                     <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> 
                 </div>
-                <button className="btn btn-primary" type="submit">Guradar</button>
+                <button className="btn btn-primary" type="submit">Actualizar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>

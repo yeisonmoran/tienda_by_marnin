@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
 import axios from "axios";
 
 function Login() {
@@ -84,9 +83,7 @@ function Login() {
                                                         onChange={(e) => setContrasena(e.target.value)}
                                                     />
                                                 </div>
-                                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                                    <Form.Check type="checkbox" label="Visualizar contraseña" />
-                                                </Form.Group>
+                    
                                                 <button type="submit" className="btn btn-primary btn-user btn-block w-100">
                                                     Iniciar sesión
                                                 </button>

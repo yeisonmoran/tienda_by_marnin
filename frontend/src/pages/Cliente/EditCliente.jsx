@@ -79,7 +79,7 @@ function EditarCliente() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Telefono: </label>
+                    <label className="form-label">Teléfono: </label>
                     <input className="form-control"
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
@@ -92,7 +92,7 @@ function EditarCliente() {
                         onChange={(e) => setCiudad(e.target.value)}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary" >Actualizar</button>
+                <button type="submit" className="btn btn-primary">Actualizar</button>
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>

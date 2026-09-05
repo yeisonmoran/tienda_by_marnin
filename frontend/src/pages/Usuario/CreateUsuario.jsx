@@ -77,7 +77,7 @@ function RegistrarUsuario() {
 
     return (
         <div className="card p-4" style={{maxWidth: "500px"}}>
-            <h2 className="mb-4">Añadir usuario</h2>
+            <h2 className="mb-4">Nuevo usuario</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
                     <label className="form-label" >Nombre: </label>
@@ -103,7 +103,7 @@ function RegistrarUsuario() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Identificacion: </label>
+                    <label className="form-label">Identificación: </label>
                     <select className="form-select"
                         value={idTipoDocumento}
                         onChange={(e) => setIdTipoDocumento(e.target.value)}
@@ -131,7 +131,7 @@ function RegistrarUsuario() {
                     </select>
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Numero de documento: </label>
+                    <label className="form-label">Número de documento: </label>
                     <input className="form-control"
                         value={numDocumento}
                         onChange={(e) => setNumDocumento(e.target.value)}

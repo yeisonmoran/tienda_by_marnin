@@ -69,7 +69,7 @@ function RegistrarProducto() {
 
     return (
         <div className="card p-4" style={{ maxWidth: "500px" }}>
-            <h2 className="mb-4">Crear producto</h2>
+            <h2 className="mb-4">Nuevo producto</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Código: </label>

@@ -34,7 +34,7 @@ function RegistrarCategoria() {
 
     return (
         <div className="card p-4" style={{ maxWidth: "500px" }}>
-            <h2 className="mb-4">Crear categoría</h2>
+            <h2 className="mb-4">Nueva categoría</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Nombre: </label>
@@ -45,7 +45,7 @@ function RegistrarCategoria() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form label">Descripcion: </label>
+                    <label className="form label">Descripción: </label>
                     <input className="form-control"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
