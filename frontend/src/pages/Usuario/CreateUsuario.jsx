@@ -77,7 +77,7 @@ function RegistrarUsuario() {
     };
 
     return (
-        <div className="card p-4" style={{ maxWidth: "500px" }}>
+        <div className="card shadow p-4" style={{ maxWidth: "500px" }}>
             <h2 className="mb-4">Nuevo usuario</h2>
             <form onSubmit={manejarSubmit}>
                 <div className="mb-3">
@@ -138,10 +138,15 @@ function RegistrarUsuario() {
                         onChange={(e) => setNumDocumento(e.target.value)}
                     />
                 </div>
-                <button type="submit" className="btn btn-success">Registrar</button>
-                <Link to="/list-usuarios" className="btn btn-secondary btn-sm">
-                    <i className="fas fa-arrow-left mr-1"></i> Cancelar
-                </Link>
+
+                <div className="d-flex aling-items-center gap-2 mt-4">
+                    <button type="submit" className="btn btn-success">
+                        <i className="fas fa-check me-1"></i>Registrar</button>
+                    <Link to="/list-usuarios" className="btn btn-secondary">
+                        <i className="fas fa-arrow-left me-1"></i> Cancelar
+                    </Link>
+                </div>
+
             </form>
             {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
         </div>
