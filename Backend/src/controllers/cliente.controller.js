@@ -31,7 +31,7 @@ export async function registrarCliente(req, res) {
         }
 
         if (correo.length > 60) {
-            
+
             return res.status(400).json({ error: "Demasiados caracteres minimo 60" });
         }
 
@@ -121,9 +121,7 @@ export async function obtenerCliente(req, res) {
         console.error(error);
         res.status(500).json({ error: "Error al obtenr cliente" });
 
-
     }
-
 }
 
 

@@ -16,6 +16,7 @@ import EditarUsuario from "./pages/Usuario/EditUsuario";
 import RegistrarCliente from "./pages/Cliente/CreateCliente";
 import RegistrarUsuario from "./pages/Usuario/CreateUsuario";
 import RegistrarVenta from "./pages/Venta/CreateVenta";
+import DetalleVenta from "./pages/Venta/detalleVenta";
 import Login from "./pages/Login/Login";
 import RutaPrivada from "./layout/RutaPrivada";
 import RutaAdmin from "./layout/RutaAdmin";
@@ -38,6 +39,7 @@ function App() {
             <Route path="/list-ventas" element={<Ventas />} />
             <Route path="/inventario" element={<Inventario />} />
             <Route path="/no-autorizado" element={<NoAutorizado />}></Route>
+            <Route path="/ventas/detalle/:id" element={<DetalleVenta />}></Route>
 
             <Route element={<RutaAdmin />}>
               <Route path="/list-usuarios" element={<Usuarios />} />

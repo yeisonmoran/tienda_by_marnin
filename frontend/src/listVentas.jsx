@@ -128,11 +128,10 @@ function Ventas() {
                     </td>
                     <td>
                       <span
-                        className={`badge ${
-                          venta.estado === "Completada"
+                        className={`badge ${venta.estado === "Completada"
                             ? "bg-success"
                             : "bg-danger"
-                        }`}
+                          }`}
                       >
                         {venta.estado}
                       </span>
@@ -150,6 +149,9 @@ function Ventas() {
                             <i className="fas fa-ban mr-1"></i> Anular
                           </button>
                         )}
+                        <Link to={`/venta/detalle/${venta.id_venta}`} className="btn btn-info btn-sm me-2">
+                          Ver detalle
+                        </Link>
                       </td>
                     )}
                   </tr>

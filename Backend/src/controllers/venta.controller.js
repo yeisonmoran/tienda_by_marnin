@@ -139,18 +139,60 @@ export async function obtenerGananciaVenta(req, res) {
             where: { idVenta: Number(id) },
         });
 
-        const ganancia = detalles.reduce((total, linea) =>{
+        const ganancia = detalles.reduce((total, linea) => {
             const gananciaLinea = (Number(linea.precioUnitario) - Number(linea.costoUnitario)) * linea.cantidad;
             return total + gananciaLinea;
         }, 0);
 
-        res.json({ganancia});
+        res.json({ ganancia });
 
     } catch (error) {
 
         console.error(error);
-        res.status(500).json({error: "Error al calcular ganancia"});
+        res.status(500).json({ error: "Error al calcular ganancia" });
     }
+}
+
+export async function obtenerVenta(req, res) {
+    try {
+        const { id } = req.params;
+
+        const venta = await prisma.venta.findUnique({
+            where: { id_venta: Number(id) },
+            include: { detalles: true },
+        });
+
+        if (!venta) {
+
+            return res.status(404).json({ error: "Venta no encontrada" });
+        }
+
+        const esAdmin = req.usuario.idRol === 1;
+
+        if (esAdmin) {
+
+            let gananciaTotal = 0;
+            venta.detalles = venta.detalles.map(linea => {
+                const ganancia = (Number(linea.precioUnitario) - (linea.costoUnitario)) * linea.cantidad;
+                gananciaTotal += ganancia;
+                return { ...linea, ganancia };
+            });
+
+            venta.gananciaTotal = gananciaTotal;
+        } else {
+
+            venta.detalles = venta.detalles.map(({ costoUnitario, ...resto }) => resto);
+        }
+
+        res.json(venta);
+
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener la venta" });
+
+    }
+
 }
 
 
