@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap-Form";
+import Form from 'react-bootstrap/Form';
 import axios from "axios";
 
 function Login() {
@@ -50,7 +50,7 @@ function Login() {
                             <div className="card-body p-0">
                                 <div className="row">
 
-                                    {/* Columna izquierda: logo de la empresa */}
+                             
                                     <div className="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-primary">
                                         <img
                                             src="./img/Logo.png"
@@ -59,7 +59,7 @@ function Login() {
                                         />
                                     </div>
 
-                                    {/* Columna derecha: formulario */}
+                                   
                                     <div className="col-lg-6">
                                         <div className="p-5">
                                             <div className="text-center">
