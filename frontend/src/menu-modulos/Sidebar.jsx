@@ -30,7 +30,7 @@ function Sidebar({ toggled, setToggled }) {
         <div className="sidebar-brand-icon rotate-n-15">
           <i className="fas fa-store"></i>
         </div>
-        <div className="sidebar-brand-text mx-2 font-weight-bold">By Marnin</div>
+        <div className="sidebar-brand-text mx-2 font-weight-bold">By Marnin <p>Makeup</p> </div>
       </Link>
 
       <hr className="sidebar-divider my-0" />

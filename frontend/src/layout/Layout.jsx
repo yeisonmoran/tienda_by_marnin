@@ -32,7 +32,7 @@ function Layout() {
 
             <div className="d-none d-sm-inline-block mr-auto my-2 my-md-0 mw-100">
               <span className="text-gray-600 font-weight-bold">
-                By Marnin &bull; Panel de Administración
+                &bull; Panel de Administración
               </span>
             </div>
 
@@ -53,7 +53,6 @@ function Layout() {
                   title="Cerrar sesión"
                   type="button"
                 >
-                  <i className="fas fa-sign-out-alt fa-sm"></i> Salir
                 </button>
               </li>
             </ul>
@@ -67,7 +66,7 @@ function Layout() {
         <footer className="sticky-footer bg-white mt-auto py-3">
           <div className="container my-auto">
             <div className="copyright text-center my-auto">
-              <span>Copyright &copy; By Marnin {new Date().getFullYear()}</span>
+              <span>Copyright &copy; By Marnin Makeup {new Date().getFullYear()}</span>
             </div>
           </div>
         </footer>

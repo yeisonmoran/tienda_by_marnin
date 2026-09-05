@@ -86,7 +86,7 @@ function Usuarios() {
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
-                  <th>Tipo Documento</th>
+                  <th>Tipo documento</th>
                   <th>Documento</th>
                   <th>Nombre</th>
                   <th>Correo</th>

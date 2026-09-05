@@ -84,8 +84,8 @@ function Clientes() {
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
-                  <th>Tipo_doc</th>
-                  <th>Número_doc</th>
+                  <th>Tipo documento</th>
+                  <th>Documento</th>
                   <th>Nombre</th>
                   <th>Teléfono</th>
                   <th>Correo</th>
