@@ -5,7 +5,6 @@ import axios from "axios";
 function Dashboard() {
   const [ventas, setVentas] = useState([]);
   const [productos, setProductos] = useState([]);
-  const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
     axios
@@ -26,15 +25,8 @@ function Dashboard() {
         console.error(error);
       });
 
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/api/clientes`)
-      .then((respuesta) => {
-        setClientes(respuesta.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }, []);
+  
 
   const totalVentas = ventas.reduce((total, venta) => {
     return total + Number(venta.total || 0);
