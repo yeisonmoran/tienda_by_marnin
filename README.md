@@ -1,28 +1,33 @@
-# Backend - Sistema de Ventas
 
-API en Node.js + Express + Prisma + MySQL.
+
+# Diseño e implementación de una aplicación web para la gestión de ventas de la tienda de cosméticos By Marnin
+
+## Backend
+
+API en Node.js + Express + Prisma + MySQL y tecnologia de pruebas Postma.
 
 ## Requisitos previos
 
-- Tener **Node.js** instalado (versión 18 o más reciente). Verifica con:
+- Instalar **Node.js** y verificar que tengas la verción mas reciente con el siguiente comando:
   ```
   node -v
   ```
-- Tener **MySQL** instalado y corriendo (localmente o en un servicio como XAMPP, WAMP, o MySQL Workbench).
-- Haber creado una base de datos vacía en MySQL (por ejemplo, `sistema_ventas`).
+- Tener **MySQL** instalado y corriendo localmente o en un servicio de MySQL Workbench.
+- Crear una base de datos con sus respectivas tablas o si ya la tienes creada mucho mejor.
+- Instalar **Postman** para hacer las pruebas de tus rutas HTTP. 
 
-## Pasos para levantar el proyecto por primera vez
+## Levantamiento del proyecto
 
 ### 1. Instalar dependencias
 ```
 npm install
 ```
-Esto lee `package.json` y descarga Express, Prisma, etc. dentro de una carpeta `node_modules` (no se sube a git, por eso está en `.gitignore`).
+Esto lee (package.json) y descarga Express, Prisma, etc. dentro de una carpeta node_modules, algunas de sus archivos no se muestran por que estan protegidos en el archivo (.gitignore).
 
 ### 2. Configurar la conexión a la base de datos
-Copia el archivo `.env.example` y renómbralo a `.env`. Edita la línea `DATABASE_URL` con tus datos reales de MySQL:
+Copia el archivo .env.example y renómbralo a (.env). Edita la línea (DATABASE_URL) con tus datos reales de MySQL:
 ```
-DATABASE_URL="mysql://usuario:contrasena@localhost:3306/sistema_ventas"
+DATABASE_URL="mysql://usuario:contrasena@localhost:3306/bymarnin"
 ```
 
 ### 3. Crear las tablas en MySQL a partir del schema de Prisma
