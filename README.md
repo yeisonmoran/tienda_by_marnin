@@ -79,3 +79,47 @@ Tecnologias:
 - localStorage
 - react-bootstrap
 - axios
+
+## Requisitos previos
+
+- Servidor local Backen corriendo 
+
+## Instalacion y ejecucion local
+
+- Crear la carpeta backend e ingresar 
+
+```
+Mkdir frontend
+cd frontend
+```
+- Instalar dependencias
+
+```
+npn install
+```
+
+- Configurar variables de entorno
+- Crear un archivo .env en la raiz
+
+```
+VITE_API_URL=http://localhost:3000
+```
+
+- Levantar el servidor de desarrollo 
+
+```
+npm run dev
+```
+
+- URL local del frontend
+
+```
+http://localhost:5173
+```
+
+## Modulos con CRUD funcional
+
+- Categorias
+- Productos
+- Clientes
+- Usuarios
