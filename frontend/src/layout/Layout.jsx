@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Sidebar from "../menu-modulos/Sidebar";
+import Sidebar from "../components/Sidebar";
 
 function Layout() {
   const [toggled, setToggled] = useState(false);

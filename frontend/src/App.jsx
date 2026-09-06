@@ -5,7 +5,7 @@ import Producto from "./listProductos";
 import Clientes from "./listClientes"
 import Usuarios from "./listUsuarios";
 import Ventas from "./listVentas";
-import Dashboard from "./Dashboard";
+import Dashboard from "./pages/Dashboard";
 import Inventario from "./pages/Inventario/listInventario";
 import RegistrarCategoria from "./pages/Categoria/CreateCategoria";
 import RegistrarProducto from "./pages/Producto/CreateProducto"
@@ -18,9 +18,9 @@ import RegistrarUsuario from "./pages/Usuario/CreateUsuario";
 import RegistrarVenta from "./pages/Venta/CreateVenta";
 import DetalleVenta from "./pages/Venta/detalleVenta";
 import Login from "./pages/Login/Login";
-import RutaPrivada from "./layout/RutaPrivada";
-import RutaAdmin from "./layout/RutaAdmin";
-import NoAutorizado from "./layout/NoAutorizado";
+import RutaPrivada from "./routes/RutaPrivada";
+import RutaAdmin from "./routes/RutaAdmin";
+import NoAutorizado from "./routes/NoAutorizado";
 
 
 function App() {
