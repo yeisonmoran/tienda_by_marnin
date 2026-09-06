@@ -2,6 +2,16 @@
 
 # Diseño e implementación de una aplicación web para la gestión de ventas de la tienda de cosméticos By Marnin
 
+
+<h2 align="center">Yeison Stiven Lara Moran</h2>
+
+ <p align="center">Estudiante de Tecnología en Sistemas de Información</p>
+ <p align="center">Universidad Antonio José Camacho</p>
+
+<p align="center">
+  <img src="./frontend/public/img/Logo.png" alt="Banner de Yeison Moran">
+</p>
+
 ## Backend
 
 API en Node.js + Express + Prisma + MySQL y tecnologia de pruebas Postma.
@@ -34,7 +44,7 @@ DATABASE_URL="mysql://usuario:contrasena@localhost:3306/bymarnin"
 ```
 npx prisma migrate dev --name init
 ```
-Este comando lee `prisma/schema.prisma` y crea las 8 tablas automáticamente en tu base de datos MySQL. La primera vez que lo corras vas a ver las tablas aparecer solas — no necesitas escribir SQL.
+Este comando lee (prisma/schema.prisma) y crea las 8 tablas automáticamente en tu base de datos MySQL. La primera vez que lo corras vas a ver las tablas aparecer solas — no necesitas escribir SQL.
 
 ### 4. Levantar el servidor
 ```
@@ -46,36 +56,26 @@ Servidor corriendo en http://localhost:3000
 ```
 
 ### 5. Probar que funciona
-Abre en el navegador (o con Postman/Insomnia):
-```
-GET http://localhost:3000/
-GET http://localhost:3000/api/categorias
-```
-La segunda ruta debe devolver `[]` (una lista vacía, porque todavía no hay categorías creadas).
-
-## Estructura del proyecto
+Hacer prueba de API en (Postman):
 
 ```
-proyecto/
-├── prisma/
-│   └── schema.prisma       ← define las 8 tablas (el "mapa" de la base de datos)
-├── src/
-│   ├── config/
-│   │   └── db.js           ← conexión reutilizable a la base de datos
-│   ├── controllers/
-│   │   └── categoria.controller.js   ← lógica de cada endpoint de categorías
-│   ├── routes/
-│   │   └── categoria.routes.js       ← conecta URLs con el controller
-│   ├── app.js               ← configuración general de Express
-│   └── server.js            ← arranca el servidor
-├── .env                      ← tus credenciales reales (NO se sube a git)
-├── .env.example               ← plantilla de las variables necesarias
-└── package.json
+app.use("/api/categorias", categoriaRoutes);
+app.use("/api/productos", productoRoutes);
+app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/clientes", clienteRoutes);
+app.use("/api/ventas", ventaRoutes);
+app.use("/api/tipos-documento", tiposDocumentoRoutes);
+app.use("/api/roles-users", rolesRoutes);
 ```
 
-## Qué sigue
+## Frontend
 
-Este proyecto ya tiene el CRUD completo de **Categoría** como ejemplo funcionando de principio a fin
-(rutas → controller → Prisma → MySQL). El siguiente paso es repetir el mismo patrón para las
-demás entidades: Producto, Cliente, Usuario, y finalmente Venta (que es más compleja porque
-maneja transacciones y descuenta stock).
+Tecnologias: 
+- React
+- Vite 
+- Bootstrap 5
+- SB Admin 2 
+- React Router Dom 
+- localStorage
+- react-bootstrap
+- axios
