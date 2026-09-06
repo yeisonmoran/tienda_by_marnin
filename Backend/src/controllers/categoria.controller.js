@@ -1,7 +1,7 @@
 import prisma from "../config/db.js";
 
 
-export async function listarCategorias(req, res) {
+export async function listarCategorias(res) {
   try {
     const categorias = await prisma.categoria.findMany({
       where: { activo: true },
