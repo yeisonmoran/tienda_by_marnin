@@ -14,9 +14,9 @@
 
 ## Backend
 
-API en Node.js + Express + Prisma + MySQL y tecnologia de pruebas Postma.
+API en Node.js + Express + Prisma + MySQL y tecnologia de pruebas postman.
 
-## Requisitos previos
+## Requisitos previos 
 
 - Instalar **Node.js** y verificar que tengas la verción mas reciente con el siguiente comando:
   ```
@@ -42,7 +42,7 @@ DATABASE_URL="mysql://usuario:contrasena@localhost:3306/bymarnin"
 
 ### 3. Crear las tablas en MySQL a partir del schema de Prisma
 ```
-npx prisma migrate dev --name init
+npx prisma db pull
 ```
 Este comando lee (prisma/schema.prisma) y crea las 8 tablas automáticamente en tu base de datos MySQL. La primera vez que lo corras vas a ver las tablas aparecer solas — no necesitas escribir SQL.
 
@@ -82,11 +82,11 @@ Tecnologias:
 
 ## Requisitos previos
 
-- Servidor local Backen corriendo 
+- Servidor local frontend corriendo 
 
 ## Instalacion y ejecucion local
 
-- Crear la carpeta backend e ingresar 
+- Crear la carpeta frontend e ingresar  
 
 ```
 Mkdir frontend
@@ -95,7 +95,7 @@ cd frontend
 - Instalar dependencias
 
 ```
-npn install
+npm install
 ```
 
 - Configurar variables de entorno
