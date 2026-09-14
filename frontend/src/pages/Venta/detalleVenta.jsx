@@ -225,7 +225,7 @@ function DetalleVenta() {
           {tieneGanancia && typeof venta.gananciaTotal !== "undefined" && (
             <div className="mt-4 p-3 bg-light rounded d-flex justify-content-between align-items-center">
               <span className="font-weight-bold text-gray-800">
-                Venata total:
+                Total ganancia:
               </span>
               <span className="h5 mb-0 font-weight-bold text-success">
                 ${Number(venta.gananciaTotal || 0).toLocaleString("es-CO")}
