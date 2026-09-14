@@ -169,7 +169,8 @@ export async function autenticarUsuario(req, res) {
             where: { correo },
         });
 
-        if (!usuario.activo) {
+
+        if (!usuario) {
 
             return res.status(401).json({ error: "credenciales invalidas" });
         }
