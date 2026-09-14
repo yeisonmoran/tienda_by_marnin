@@ -1,7 +1,7 @@
 
 import { Router } from "express";
-import { verificarToken } from "../middleware/Auth.middleware.js";
-import { verificarRol } from "../middleware/Auth.middleware.js";
+import { verificarToken } from "../middleware/auth.middleware.js";
+import { verificarRol } from "../middleware/auth.middleware.js";
 
 import {
     listarUsuarios,
