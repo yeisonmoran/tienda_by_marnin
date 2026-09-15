@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-function DetalleVenta() {
+function detalleVenta() {
   const { id } = useParams();
   const [venta, setVenta] = useState(null);
   const [productos, setProductos] = useState([]);
@@ -238,4 +238,4 @@ function DetalleVenta() {
   );
 }
 
-export default DetalleVenta;
+export default detalleVenta;
