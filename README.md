@@ -9,7 +9,7 @@
  <p align="center">Universidad Antonio José Camacho</p>
 
 <p align="center">
-  <img src="./frontend/public/img/Logo.png" alt="Banner de Yeison Moran">
+  <img src="./Frontend/public/img/Logo.png" alt="Banner de Yeison Moran">
 </p>
 
 ## Backend
