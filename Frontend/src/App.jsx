@@ -16,7 +16,7 @@ import EditarUsuario from "./pages/Usuario/EditUsuario";
 import RegistrarCliente from "./pages/Cliente/CreateCliente";
 import RegistrarUsuario from "./pages/Usuario/CreateUsuario";
 import RegistrarVenta from "./pages/Venta/CreateVenta";
-import DetalleVenta from "./pages/Venta/DetalleVenta";
+import detalleVenta from "./pages/Venta/DetalleVenta";
 import Login from "./pages/Login/Login";
 import RutaPrivada from "./routes/RutaPrivada";
 import RutaAdmin from "./routes/RutaAdmin";
