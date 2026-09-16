@@ -129,9 +129,7 @@ function Detalle() {
                 {vendedorEncontrado ? vendedorEncontrado.nombre : `Usuario #${venta.idUsuario}`}
               </div>
               <small className="text-muted">
-                {new Date(venta.fecha).toLocaleDateString("es-CO", {
-                  timeZone: "America/Bogota",
-                })}
+                {new Date(venta.fecha).toLocaleDateString("es-CO")}
               </small>
             </div>
           </div>
