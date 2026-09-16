@@ -90,6 +90,7 @@ function Clientes() {
                   <th>Teléfono</th>
                   <th>Correo</th>
                   <th>Ciudad</th>
+                  <th>Estado</th>
                   <th className="text-center">Acciones</th>
                 </tr>
               </thead>
@@ -111,7 +112,14 @@ function Clientes() {
                     <td>{cliente.telefono}</td>
                     <td>{cliente.correo}</td>
                     <td>{cliente.ciudad}</td>
-
+                    <td>
+                      <span
+                        className={`badge ${cliente.activo ? "bg-success" : "bg-danger"
+                          }`}
+                      >
+                        {cliente.activo ? "Activo" : "Inactivo"}
+                      </span>
+                    </td>
 
                     <td className="text-center">
                       <div className="d-flex justify-content-center gap-1">
@@ -134,7 +142,7 @@ function Clientes() {
                         )}
                       </div>
                     </td>
-                    
+
                   </tr>
                 ))}
               </tbody>
