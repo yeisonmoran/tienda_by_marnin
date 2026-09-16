@@ -19,7 +19,7 @@ router.get("/", listarProductos);
 router.get("/:id", obtenerProducto);
 
 
-router.post("/registrar_cliente", verificarToken, verificarRol(1), registrarProducto);
+router.post("/registrar_producto", verificarToken, verificarRol(1), registrarProducto);
 router.put("/:id", verificarToken, verificarRol(1),editarProducto);
 router.patch("/:id/update_stock", verificarToken, verificarRol(1), actualizarStock);
 router.delete("/:id", verificarToken, verificarRol(1), eliminarProducto);
