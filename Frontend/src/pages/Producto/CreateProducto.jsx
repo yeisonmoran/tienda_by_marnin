@@ -38,7 +38,7 @@ function RegistrarProducto() {
 
         const token = localStorage.getItem("token");
 
-        axios.post(`${import.meta.env.VITE_API_URL}/api/productos`,
+        axios.post(`${import.meta.env.VITE_API_URL}/api/productos/registrar_producto`,
             {
                 codigo, nombre, marca, linea, idCategoria: Number(idCategoria), stock: Number(stock),
                 precio: Number(precio), precioCompra: Number(precioCompra), stockMinimo: Number(stockMinimo), descripcion

@@ -14,7 +14,7 @@ function RegistrarCategoria() {
 
         const token = localStorage.getItem("token");
 
-        axios.post(`${import.meta.env.VITE_API_URL}/api/categorias/registrar-categoria`,
+        axios.post(`${import.meta.env.VITE_API_URL}/api/categorias/registrar_categoria`,
             { nombre, descripcion },
             {
                 headers: {

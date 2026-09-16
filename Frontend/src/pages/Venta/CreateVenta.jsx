@@ -33,8 +33,6 @@ function RegistrarVenta() {
 
 
 
-
-
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL}/api/clientes`)
 
@@ -95,8 +93,7 @@ function RegistrarVenta() {
             cantidad: Number(linea.cantidad),
         }));
 
-        axios.post(
-            `${import.meta.env.VITE_API_URL}/api/ventas`,
+        axios.post(`${import.meta.env.VITE_API_URL}/api/ventas/registrar_venta`,
             {
                 idCliente: Number(idCliente),
                 idUsuario: JSON.parse(localStorage.getItem("usuario")).id_usuario,

@@ -35,7 +35,7 @@ function RegistrarCliente() {
 
         const token = localStorage.getItem("token");
 
-        axios.post(`${import.meta.env.VITE_API_URL}/api/clientes`,
+        axios.post(`${import.meta.env.VITE_API_URL}/api/clientes/registrar_cliente`,
             {
                 nombre, correo, telefono, ciudad, idTipoDocumento: Number(idTipoDocumento),
                 numDocumento

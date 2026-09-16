@@ -50,7 +50,7 @@ function RegistrarUsuario() {
 
         const token = localStorage.getItem("token");
 
-        axios.post(`${import.meta.env.VITE_API_URL}/api/usuarios`,
+        axios.post(`${import.meta.env.VITE_API_URL}/api/usuarios/registrar_usuario`,
             {
                 nombre, correo, contrasena, idRol: Number(idRol), idTipoDocumento: Number(idTipoDocumento),
                 numDocumento
