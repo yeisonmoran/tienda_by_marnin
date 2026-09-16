@@ -20,7 +20,7 @@ router.get("/", listarCategorias);
 router.get("/:id", obtenerCategoria);
 
 
-router.post("/registrar_categoria", verificarToken, verificarRol(1), registrarCategoria);
+router.post("/registrar-categoria", verificarToken, verificarRol(1), registrarCategoria);
 router.put("/:id", verificarToken, verificarRol(1), editarCategoria);
 router.delete("/:id", verificarToken, verificarRol(1), eliminarCategoria);
 
