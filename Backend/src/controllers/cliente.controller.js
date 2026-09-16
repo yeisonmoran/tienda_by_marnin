@@ -93,6 +93,7 @@ export async function eliminarCliente(req, res) {
         await prisma.cliente.delete({
 
             where: { id_cliente: Number(id) },
+            data: {activo: false},
         });
 
         res.status(204).send();
