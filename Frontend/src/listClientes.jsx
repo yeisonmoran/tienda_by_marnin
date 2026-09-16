@@ -45,7 +45,7 @@ function Clientes() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        setClientes(clientes.map((cli) => cli.id_cliente === id ? { ...cli, activo: false } : cli));
+        setClientes(clientes.map(cli => cli.id_cliente === id ? { ...cli, activo: false } : cli));
       })
       .catch((error) => {
         if (error.response && error.response.status === 403) {
