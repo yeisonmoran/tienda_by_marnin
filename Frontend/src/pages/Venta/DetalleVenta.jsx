@@ -43,7 +43,7 @@ function Detalle() {
         console.error("Error al cargar detalles de la venta:", err);
         setError(
           err.response?.data?.error ||
-            "No se pudo cargar la información de la venta. Verifica tus permisos o la conexión."
+          "No se pudo cargar la información de la venta. Verifica tus permisos o la conexión."
         );
       })
       .finally(() => {
@@ -129,7 +129,9 @@ function Detalle() {
                 {vendedorEncontrado ? vendedorEncontrado.nombre : `Usuario #${venta.idUsuario}`}
               </div>
               <small className="text-muted">
-                {new Date(venta.fecha).toLocaleDateString()}
+                {new Date(venta.fecha).toLocaleDateString("es-CO", {
+                  timeZone: "America/Bogota",
+                })}
               </small>
             </div>
           </div>
@@ -157,9 +159,8 @@ function Detalle() {
               </div>
               <div>
                 <span
-                  className={`badge ${
-                    venta.estado === "Completada" ? "bg-success" : "bg-danger"
-                  }`}
+                  className={`badge ${venta.estado === "Completada" ? "bg-success" : "bg-danger"
+                    }`}
                 >
                   {venta.estado}
                 </span>

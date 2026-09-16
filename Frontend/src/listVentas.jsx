@@ -122,15 +122,18 @@ function Ventas() {
                         (usuario) => usuario.id_usuario === venta.idUsuario
                       )?.nombre || "N/A"}
                     </td>
-                    <td>{new Date(venta.fecha).toLocaleDateString()}</td>
+                    <td>{new Date(venta.fecha).toLocaleDateString("es-CO", {
+                      timeZone: "America/Bogota",
+                    })}
+                    </td>
                     <td className="font-weight-bold text-gray-800">
                       ${Number(venta.total).toLocaleString("es-CO")}
                     </td>
                     <td>
                       <span
                         className={`badge ${venta.estado === "Completada"
-                            ? "bg-success"
-                            : "bg-danger"
+                          ? "bg-success"
+                          : "bg-danger"
                           }`}
                       >
                         {venta.estado}
