@@ -19,9 +19,9 @@ router.get("/", listarProductos);
 router.get("/:id", obtenerProducto);
 
 
-router.post("/", verificarToken, verificarRol(1), registrarProducto);
+router.post("/registrar_cliente", verificarToken, verificarRol(1), registrarProducto);
 router.put("/:id", verificarToken, verificarRol(1),editarProducto);
-router.put("/:id", verificarToken, verificarRol(1), actualizarStock);
+router.patch("/:id/update_stock", verificarToken, verificarRol(1), actualizarStock);
 router.delete("/:id", verificarToken, verificarRol(1), eliminarProducto);
 
 export default router;
