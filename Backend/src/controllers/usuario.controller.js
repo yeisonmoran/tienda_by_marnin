@@ -8,7 +8,7 @@ export async function listarUsuarios(req, res) {
 
     try {
         const usuarios = await prisma.usuario.findMany(
-           
+
         );
         res.json(usuarios);
     } catch (error) {
