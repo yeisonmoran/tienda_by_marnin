@@ -5,12 +5,7 @@ import axios from "axios";
 function Producto() {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [filtros, setFiltros] = useState({
-    codigo: "",
-    categoria: "",
-    marca: "",
-    linea: "",
-  });
+  const [filtros, setFiltros] = useState({codigo: "", categoria: "", marca: "", linea: "", });
 
   let usuario = null;
   try {
@@ -123,8 +118,7 @@ function Producto() {
         </div>
 
         <div className="card-body">
-          {/* Barra de Filtros */}
-          <div className="row g-2 mb-3">
+            <div className="row g-2 mb-3">
             <div className="col-md-3">
               <input
                 type="text"
