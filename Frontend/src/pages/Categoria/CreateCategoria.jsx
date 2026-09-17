@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom"; 
 import axios from "axios";
 
 
@@ -8,6 +9,8 @@ function RegistrarCategoria() {
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [mensaje, setMensaje] = useState("");
+
+    const navigate = useNavigate();
 
     const manejarSubmit = (e) => {
         e.preventDefault();
@@ -26,6 +29,7 @@ function RegistrarCategoria() {
                 setMensaje("Categoria creada con exito: " + respuesta.data.nombre);
                 setNombre("");
                 setDescripcion("");
+                navigate("/");
             })
             .catch(error => {
                 console.error(error)

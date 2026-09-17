@@ -65,7 +65,7 @@ function EditarUsuario() {
         )
             .then(() => {
                 setMensaje("Usuario actualizado con exito");
-                navigate("/");
+                navigate("/list-usuarios");
             })
             .catch(error => {
                 console.error(error)

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
@@ -15,6 +16,7 @@ function RegistrarUsuario() {
 
     const [Tipo, setTipo] = useState([]);
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL}/api/tipos-documento`)
@@ -69,6 +71,7 @@ function RegistrarUsuario() {
                 setIdRol("");
                 setIdTipoDocumento("");
                 setNumDocumento("");
+                navigate("/list-usuarios");
             })
             .catch(error => {
                 console.error(error)

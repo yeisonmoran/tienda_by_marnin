@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -14,6 +15,8 @@ function RegistrarCliente() {
     const [mensaje, setMensaje] = useState("");
 
     const [Tipo, setTipo] = useState([]);
+
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -54,6 +57,7 @@ function RegistrarCliente() {
                 setCiudad("");
                 setIdTipoDocumento("");
                 setNumDocumento("");
+                navigate("/list-clientes")
             })
             .catch(error => {
                 console.error(error)

@@ -61,7 +61,7 @@ function EditarProducto() {
         )
             .then((respuesta) => {
                 setMensaje("Producto actualizado con éxito: " + respuesta.data.nombre);
-                navigate("/");
+                navigate("/list-productos");
             })
             .catch(error => {
                 console.error(error)

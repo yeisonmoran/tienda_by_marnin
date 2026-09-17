@@ -51,7 +51,7 @@ function EditarCliente() {
         )
             .then((respuesta) => {
                 setMensaje("Cliente actualizado con exito: " + respuesta.data.nombre);
-                navigate("/");
+                navigate("/list-clientes");
             })
             .catch(error => {
                 console.error(error)

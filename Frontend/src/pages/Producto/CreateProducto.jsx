@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 
@@ -19,6 +20,8 @@ function RegistrarProducto() {
 
 
     const [categorias, setCategorias] = useState([]);
+
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -61,6 +64,7 @@ function RegistrarProducto() {
                 setStock("");
                 setStockMinimo("");
                 setDescripcion("");
+                navigate("/list-productos")
             })
             .catch(error => {
                 console.error(error)
