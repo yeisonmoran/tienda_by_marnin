@@ -122,7 +122,7 @@ function Ventas() {
                         (usuario) => usuario.id_usuario === venta.idUsuario
                       )?.nombre || "N/A"}
                     </td>
-                    <td>{new Date(venta.fecha).toLocaleDateString("es-CO")}
+                    <td>{new Date(venta.fecha).toLocaleDateString("es-CO", {timeZone: "UTC"})}
                     </td>
                     <td className="font-weight-bold text-gray-800">
                       ${Number(venta.total).toLocaleString("es-CO")}
