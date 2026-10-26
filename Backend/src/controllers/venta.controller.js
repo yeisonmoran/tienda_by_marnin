@@ -1,4 +1,5 @@
 import prisma from "../config/db.js";
+import ExcelJS from "exceljs";
 
 
 export async function listarVentas(req, res) {
@@ -248,6 +249,193 @@ export async function anularVenta(req, res) {
 
 }
 
+
+export async function exportarVentas(req, res) {
+
+    try {
+        const { fechaInicio, fechaFin } = req.query;
+
+        if (!fechaInicio || !fechaFin) {
+            return res.status(400).json({
+                error: "Debe indicar fechaInicio y fechaFin"
+            });
+        }
+
+        const inicio = new Date(`${fechaInicio}T00:00:00.000Z`);
+
+        const fin = new Date(`${fechaFin}T00:00:00.000Z`);
+        fin.setUTCDate(fin.getUTCDate() + 1);
+
+        if (Number.isNaN(inicio.getTime()) || Number.isNaN(fin.getTime())) {
+            return res.status(400).json({ error: "Fechas inválidas" });
+        }
+
+  
+        const [ventas, clientes, usuarios, detalles] = await Promise.all([
+            prisma.venta.findMany({
+                where: { fecha: { gte: inicio, lt: fin } },
+                orderBy: { fecha: "asc" },
+            }),
+            prisma.cliente.findMany(),
+            prisma.usuario.findMany(),
+            prisma.detalleVenta.findMany({
+                where: { venta: { fecha: { gte: inicio, lt: fin } } },
+            }),
+        ]);
+
+        const mapaClientes = new Map(
+            clientes.map((cliente) => [cliente.id_cliente, cliente.nombre])
+        );
+        const mapaUsuarios = new Map(
+            usuarios.map((usuario) => [usuario.id_usuario, usuario.nombre])
+        );
+
+        const mapaGanancias = new Map();
+        let gananciaTotal = 0;
+
+        for (const linea of detalles) {
+            const gananciaLinea =
+                (Number(linea.precioUnitario) - Number(linea.costoUnitario)) *
+                linea.cantidad;
+
+            mapaGanancias.set(
+                linea.idVenta,
+                (mapaGanancias.get(linea.idVenta) || 0) + gananciaLinea
+            );
+            gananciaTotal += gananciaLinea;
+        }
+
+        const ventasValidas = ventas.filter(
+            (venta) => venta.estado !== "Anulada"
+        );
+        const ventasAnuladas = ventas.length - ventasValidas.length;
+
+        let totalVendido = 0;
+        for (const venta of ventasValidas) {
+            totalVendido += Number(venta.total);
+        }
+
+        const workbook = new ExcelJS.Workbook();
+        const hoja = workbook.addWorksheet("Ventas");
+
+        hoja.mergeCells("A1:H1");
+        const titulo = hoja.getCell("A1");
+        titulo.value = "By Marnin";
+        titulo.font = { bold: true, size: 18 };
+        titulo.alignment = { horizontal: "center", vertical: "middle" };
+        hoja.getRow(1).height = 28;
+
+        hoja.mergeCells("A2:H2");
+        const subtitulo = hoja.getCell("A2");
+        subtitulo.value = "By Marnin Makeup - Reporte de Ventas por Rango de Fechas";
+        subtitulo.font = { bold: true, size: 12 };
+        subtitulo.alignment = { horizontal: "center" };
+
+        hoja.mergeCells("A3:H3");
+        const rango = hoja.getCell("A3");
+        rango.value =
+            `Del ${fechaInicio} al ${fechaFin}  |  ` +
+            `Generado: ${new Date().toLocaleString("es-CO")}`;
+        rango.alignment = { horizontal: "center" };
+
+        hoja.columns = [
+            { key: "id", width: 10 },
+            { key: "fecha", width: 14 },
+            { key: "cliente", width: 28 },
+            { key: "vendedor", width: 28 },
+            { key: "metodoPago", width: 16 },
+            { key: "estado", width: 14 },
+            { key: "total", width: 16 },
+            { key: "ganancia", width: 16 },
+        ];
+
+        const filaEncabezado = hoja.getRow(5);
+        filaEncabezado.values = [
+            "N° Venta",
+            "Fecha",
+            "Cliente",
+            "Vendedor",
+            "Método de Pago",
+            "Estado",
+            "Total",
+            "Ganancia",
+        ];
+        filaEncabezado.font = { bold: true };
+        filaEncabezado.eachCell((cell) => {
+            cell.fill = {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "FFE2E8F0" },
+            };
+            cell.border = {
+                top: { style: "thin" },
+                left: { style: "thin" },
+                bottom: { style: "thin" },
+                right: { style: "thin" },
+            };
+        });
+
+    
+        hoja.getColumn(7).numFmt = '"$"#,##0';
+        hoja.getColumn(8).numFmt = '"$"#,##0';
+
+        for (const venta of ventas) {
+            const fila = hoja.addRow({
+                id: venta.id_venta,
+                fecha: new Date(venta.fecha).toLocaleDateString("es-CO", {
+                    timeZone: "UTC",
+                }),
+                cliente: mapaClientes.get(venta.idCliente) || "N/A",
+                vendedor: mapaUsuarios.get(venta.idUsuario) || "N/A",
+                metodoPago: venta.metodoPago,
+                estado: venta.estado,
+                total: Number(venta.total),
+                ganancia: mapaGanancias.get(venta.id_venta) || 0,
+            });
+
+            if (venta.estado === "Anulada") {
+                fila.getCell("estado").font = {
+                    color: { argb: "FFC00000" },
+                    bold: true,
+                };
+            }
+        }
+
+
+        const filaTotal = hoja.addRow({
+            id: "",
+            fecha: "",
+            cliente: "",
+            vendedor: "",
+            metodoPago: "",
+            estado: `TOTALES (${ventasValidas.length} ventas, ${ventasAnuladas} anuladas)`,
+            total: totalVendido,
+            ganancia: gananciaTotal,
+        });
+        filaTotal.font = { bold: true };
+        filaTotal.eachCell((cell) => {
+            cell.border = {
+                top: { style: "double" },
+            };
+        });
+
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename=ventas_${fechaInicio}_${fechaFin}.xlsx`
+        );
+
+        const buffer = await workbook.xlsx.writeBuffer();
+        res.send(buffer);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al generar el reporte" });
+    }
+}
 
 
 
