@@ -6,6 +6,8 @@ function Ventas() {
   const [usuarios, setUsuarios] = useState([]);
   const [clientes, setClientes] = useState([]);
   const [ventas, setVentas] = useState([]);
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
 
   let usuario = null;
   try {
@@ -74,6 +76,42 @@ function Ventas() {
       });
   };
 
+  const descargarExcel = () => {
+    if (!fechaInicio || !fechaFin) {
+      alert("Selecciona la fecha inicial y la fecha final");
+      return;
+    }
+
+    if (fechaFin < fechaInicio) {
+      alert("La fecha final debe ser mayor o igual a la fecha inicial");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/ventas/reportes`, {
+        params: { fechaInicio, fechaFin },
+        responseType: "blob",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((respuesta) => {
+        const url = URL.createObjectURL(respuesta.data);
+        const enlace = document.createElement("a");
+        enlace.href = url;
+        enlace.download = `ventas_${fechaInicio}_${fechaFin}.xlsx`;
+        enlace.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 403) {
+          alert("No tienes permisos para descargar el reporte");
+        } else {
+          alert("Error al generar el reporte");
+        }
+      });
+  };
+
   return (
     <div>
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -88,6 +126,35 @@ function Ventas() {
           <h6 className="m-0 font-weight-bold text-primary">
             Historial de Ventas
           </h6>
+        </div>
+        <div className="p-3 border-bottom bg-light">
+          <h6 className="font-weight-bold text-gray-800 mb-2">
+            Reporte por rango de fechas
+          </h6>
+          <div className="d-flex flex-wrap align-items-center gap-2">
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              style={{ maxWidth: "180px" }}
+              value={fechaInicio}
+              onChange={(e) => setFechaInicio(e.target.value)}
+            />
+            <span className="mx-1">al</span>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              style={{ maxWidth: "180px" }}
+              value={fechaFin}
+              onChange={(e) => setFechaFin(e.target.value)}
+            />
+            <button
+              className="btn btn-success btn-sm ms-2"
+              onClick={descargarExcel}
+              type="button"
+            >
+              <i className="fas fa-file-excel mr-1"></i> Descargar Excel
+            </button>
+          </div>
         </div>
         <div className="card-body">
           <div className="table-responsive">
