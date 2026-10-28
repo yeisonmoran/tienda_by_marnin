@@ -40,6 +40,7 @@ export async function registrarVenta(req, res) {
 
 
         const productosConError = [];
+        const productosSinCosto = [];
         const productosEncontrados = [];
 
         for (const item of detalles) {
@@ -63,6 +64,18 @@ export async function registrarVenta(req, res) {
 
                 continue;
             }
+
+            // El costo de compra viene de la tabla productos (inventario).
+            // Si no tiene costo asignado, se bloquea la venta para no
+            // guardar ganancias en 0 por error.
+            if (Number(producto.precioCompra) <= 0) {
+                productosSinCosto.push({
+                    idProducto: item.idProducto,
+                    nombre: producto.nombre,
+                });
+
+                continue;
+            }
             productosEncontrados.push({ producto, cantidad: item.cantidad });
 
         }
@@ -71,6 +84,13 @@ export async function registrarVenta(req, res) {
             return res.status(409).json({
                 error: "stock_insuficiente",
                 productos: productosConError,
+            });
+        }
+
+        if (productosSinCosto.length > 0) {
+            return res.status(409).json({
+                error: "productos_sin_costo",
+                productos: productosSinCosto,
             });
         }
 
@@ -84,7 +104,7 @@ export async function registrarVenta(req, res) {
                 idProducto: producto.id_producto,
                 cantidad,
                 precioUnitario: producto.precio,
-                costoUnitario: producto.precioCompra,
+                costoUnitario: Number(producto.precioCompra),
                 subtotal,
             };
         });
@@ -174,7 +194,10 @@ export async function obtenerVenta(req, res) {
 
             let gananciaTotal = 0;
             venta.detalles = venta.detalles.map(linea => {
-                const ganancia = (Number(linea.precioUnitario) - Number(linea.costoUnitario || 0)) * linea.cantidad;
+                // Las ventas anuladas no generan ganancia
+                const ganancia = venta.estado === "Anulada"
+                    ? 0
+                    : (Number(linea.precioUnitario) - Number(linea.costoUnitario || 0)) * linea.cantidad;
                 gananciaTotal += ganancia;
                 return { ...linea, ganancia };
             });
@@ -279,7 +302,12 @@ export async function exportarVentas(req, res) {
             prisma.cliente.findMany(),
             prisma.usuario.findMany(),
             prisma.detalleVenta.findMany({
-                where: { venta: { fecha: { gte: inicio, lt: fin } } },
+                where: {
+                    venta: {
+                        fecha: { gte: inicio, lt: fin },
+                        estado: "Completada",
+                    },
+                },
             }),
         ]);
 
@@ -290,13 +318,32 @@ export async function exportarVentas(req, res) {
             usuarios.map((usuario) => [usuario.id_usuario, usuario.nombre])
         );
 
+       
+        const idsProductos = [
+            ...new Set(detalles.map((linea) => linea.idProducto)),
+        ];
+        const productos = await prisma.producto.findMany({
+            where: { id_producto: { in: idsProductos } },
+            select: { id_producto: true, precioCompra: true },
+        });
+        const mapaCostos = new Map(
+            productos.map((producto) => [
+                producto.id_producto,
+                Number(producto.precioCompra),
+            ])
+        );
+
         const mapaGanancias = new Map();
         let gananciaTotal = 0;
 
         for (const linea of detalles) {
+            const costoUnitario =
+                Number(linea.costoUnitario) > 0
+                    ? Number(linea.costoUnitario)
+                    : (mapaCostos.get(linea.idProducto) || 0);
+
             const gananciaLinea =
-                (Number(linea.precioUnitario) - Number(linea.costoUnitario)) *
-                linea.cantidad;
+                (Number(linea.precioUnitario) - costoUnitario) * linea.cantidad;
 
             mapaGanancias.set(
                 linea.idVenta,
@@ -305,13 +352,15 @@ export async function exportarVentas(req, res) {
             gananciaTotal += gananciaLinea;
         }
 
-        const ventasValidas = ventas.filter(
-            (venta) => venta.estado !== "Anulada"
+        const ventasCompletadas = ventas.filter(
+            (venta) => venta.estado === "Completada"
         );
-        const ventasAnuladas = ventas.length - ventasValidas.length;
+        const ventasAnuladas = ventas.filter(
+            (venta) => venta.estado === "Anulada"
+        ).length;
 
         let totalVendido = 0;
-        for (const venta of ventasValidas) {
+        for (const venta of ventasCompletadas) {
             totalVendido += Number(venta.total);
         }
 
@@ -390,7 +439,10 @@ export async function exportarVentas(req, res) {
                 metodoPago: venta.metodoPago,
                 estado: venta.estado,
                 total: Number(venta.total),
-                ganancia: mapaGanancias.get(venta.id_venta) || 0,
+                ganancia:
+                    venta.estado === "Completada"
+                        ? (mapaGanancias.get(venta.id_venta) || 0)
+                        : 0,
             });
 
             if (venta.estado === "Anulada") {
@@ -408,7 +460,7 @@ export async function exportarVentas(req, res) {
             cliente: "",
             vendedor: "",
             metodoPago: "",
-            estado: `TOTALES (${ventasValidas.length} ventas, ${ventasAnuladas} anuladas)`,
+            estado: `TOTALES (${ventasCompletadas.length} ventas completadas, ${ventasAnuladas} anuladas)`,
             total: totalVendido,
             ganancia: gananciaTotal,
         });
