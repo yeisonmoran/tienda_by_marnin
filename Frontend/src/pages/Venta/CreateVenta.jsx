@@ -109,6 +109,11 @@ function RegistrarVenta() {
                 console.error(error);
                 if (error.response?.data?.error === "stock_insuficiente") {
                     setMensaje("Stock insuficiente en uno o más productos.");
+                } else if (error.response?.data?.error === "productos_sin_costo") {
+                    setMensaje(
+                        "Uno o más productos no tienen costo de compra asignado. " +
+                        "Pide al administrador actualizar el costo en el inventario antes de venderlos."
+                    );
                 } else {
                     setMensaje("Error al registrar la venta.");
                 }
