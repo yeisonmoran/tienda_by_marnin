@@ -107,12 +107,21 @@ export async function registrarVenta(req, res) {
             };
         });
 
+        // Fecha comercial en hora de Colombia: el servidor puede correr en
+        // UTC (p. ej. en Render). Con new Date() a secas, una venta hecha
+        // después de las 7:00 p. m. (hora Colombia) se guardaría con la
+        // fecha del día siguiente, porque fecha es @db.Date (solo fecha).
+        const fechaComercial = new Date(
+            new Date().toLocaleString("en-US", { timeZone: "America/Bogota" })
+        );
+        fechaComercial.setHours(0, 0, 0, 0);
+
         const resultado = await prisma.$transaction(async (tx) => {
             const nuevaVenta = await tx.venta.create({
                 data: {
                     idCliente: Number(idCliente),
                     idUsuario: Number(idUsuario),
-                    fecha: new Date(),
+                    fecha: fechaComercial,
                     total,
                     estado: "Completada",
                     metodoPago: metodoPago || "efectivo",
