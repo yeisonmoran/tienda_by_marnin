@@ -5,7 +5,9 @@ import prisma from "../config/db.js";
 export async function listarClientes(req, res) {
 
     try {
-        const clientes = await prisma.cliente.findMany();
+        const clientes = await prisma.cliente.findMany({
+            data : { activo: true},
+        });
         res.json(clientes);
     } catch (error) {
         console.error(error);

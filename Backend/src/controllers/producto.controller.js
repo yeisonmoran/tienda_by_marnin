@@ -149,7 +149,6 @@ export async function editarProducto(req, res) {
 }
 
 
-
 export async function actualizarStock(req, res) {
     try {
         const { id } = req.params;
