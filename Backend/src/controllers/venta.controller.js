@@ -121,7 +121,7 @@ export async function registrarVenta(req, res) {
                     fecha: fechaComercial,
                     total,
                     estado: "Completada",
-                    metodoPago: metodoPago || "efectivo",
+                    metodoPago: metodoPago || "Efectivo",
                 },
             });
 
