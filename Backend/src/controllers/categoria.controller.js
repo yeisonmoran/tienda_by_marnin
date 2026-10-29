@@ -43,6 +43,14 @@ export async function registrarCategoria(req, res) {
       return res.status(400).json({ error: "El nombre es obligatorio" });
     }
 
+    const existente = await prisma.categoria.findFirst({
+      where: { nombre, activo: true },
+    });
+
+    if (existente) {
+      return res.status(409).json({ error: "Ya existe una categoría activa con ese nombre" });
+    }
+
     const nuevaCategoria = await prisma.categoria.create({
       data: { nombre, descripcion },
     });
@@ -60,6 +68,14 @@ export async function editarCategoria(req, res) {
   try {
     const { id } = req.params;
     const { nombre, descripcion } = req.body;
+
+    const existente = await prisma.categoria.findFirst({
+      where: { nombre, id_categoria: { not: Number(id) } },
+    });
+
+    if (existente) {
+      return res.status(409).json({ error: "Ya existe otra categoría con ese nombre" });
+    }
 
     const categoriaActualizada = await prisma.categoria.update({
       where: { id_categoria: Number(id) },

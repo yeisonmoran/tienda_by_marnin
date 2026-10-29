@@ -48,6 +48,15 @@ export async function registrarCliente(req, res) {
             return res.status(400).json({ error: "El documento debe contener 10 digitos" });
         }
 
+        const existente = await prisma.cliente.findFirst({
+            where: { numDocumento },
+        });
+
+        if (existente) {
+            return res.status(409).json({
+                error: "Ya existe un cliente con ese número de documento",
+            });
+        }
 
         const nuevoCliente = await prisma.cliente.create({
             data: { nombre, correo, telefono, ciudad, idTipoDocumento, numDocumento }

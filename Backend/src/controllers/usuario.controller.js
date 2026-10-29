@@ -96,6 +96,22 @@ export async function registrarUsuario(req, res) {
             });
         }
 
+        const correoExistente = await prisma.usuario.findFirst({ where: { correo } });
+
+        if (correoExistente) {
+            return res.status(409).json({
+                error: "Ya existe un usuario con ese correo"
+            });
+        }
+
+        const documentoExistente = await prisma.usuario.findFirst({ where: { numDocumento } });
+
+        if (documentoExistente) {
+            return res.status(409).json({
+                error: "Ya existe un usuario con ese número de documento"
+            });
+        }
+
         const passwordHasheada = await bcrypt.hash(contrasena, 10);
 
         const nuevoUsuario = await prisma.usuario.create({
@@ -106,6 +122,9 @@ export async function registrarUsuario(req, res) {
 
     } catch (error) {
         console.error(error);
+        if (error.code === "P2002") {
+            return res.status(409).json({ error: "Ya existe un usuario con ese correo" });
+        }
         res.status(500).json({ error: "Error al registrar usuario" });
 
     }
@@ -119,6 +138,16 @@ export async function editarUsuario(req, res) {
     try {
         const { id } = req.params;
         const { nombre, correo, contrasena, idRol } = req.body;
+
+        const correoExistente = await prisma.usuario.findFirst({
+            where: { correo, id_usuario: { not: Number(id) } },
+        });
+
+        if (correoExistente) {
+            return res.status(409).json({
+                error: "Ya existe otro usuario con ese correo"
+            });
+        }
 
         let contrasenaFinal = undefined;
 
@@ -134,6 +163,9 @@ export async function editarUsuario(req, res) {
         res.json(usuarioActualizado);
     } catch (error) {
         console.error(error);
+        if (error.code === "P2002") {
+            return res.status(409).json({ error: "Ya existe otro usuario con ese correo" });
+        }
         res.status(500).json({ error: "Error al editar usuario" });
     }
 

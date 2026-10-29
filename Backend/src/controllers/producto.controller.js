@@ -98,6 +98,14 @@ export async function registrarProducto(req, res) {
             });
         }
 
+        const existente = await prisma.producto.findFirst({ where: { codigo } });
+
+        if (existente) {
+            return res.status(409).json({
+                error: "Ya existe un producto con ese código"
+            });
+        }
+
         const nuevoProducto = await prisma.producto.create({
 
             data: { codigo, nombre, marca, linea, idCategoria, precio, precioCompra, stock, stockMinimo, descripcion },
@@ -107,6 +115,9 @@ export async function registrarProducto(req, res) {
 
     } catch (error) {
         console.error(error);
+        if (error.code === "P2002") {
+            return res.status(409).json({ error: "Ya existe un producto con ese código" });
+        }
         res.status(500).json({ error: "Error al registrar producto" });
     }
 }
@@ -130,10 +141,21 @@ export async function editarProducto(req, res) {
 
         if (precioCompra > precio) {
             return res.status(400).json({
-                error: "El precio de compra no puuede ser mayor al precio de venta"
+                error: "El precio de compra no puede ser mayor al precio de venta"
 
             });
         }
+
+        const existente = await prisma.producto.findFirst({
+            where: { codigo, id_producto: { not: Number(id) } },
+        });
+
+        if (existente) {
+            return res.status(409).json({
+                error: "Ya existe otro producto con ese código"
+            });
+        }
+
         const productoActualizado = await prisma.producto.update({
             where: { id_producto: Number(id) },
             data: { codigo, nombre, marca, linea, precio, precioCompra, stock, stockMinimo, descripcion },
@@ -143,6 +165,9 @@ export async function editarProducto(req, res) {
 
     } catch (error) {
         console.error(error);
+        if (error.code === "P2002") {
+            return res.status(409).json({ error: "Ya existe otro producto con ese código" });
+        }
         res.status(500).json({ error: "Error al editar producto" });
     }
 
