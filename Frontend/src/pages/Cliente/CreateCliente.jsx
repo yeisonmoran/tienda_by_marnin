@@ -102,7 +102,7 @@ function RegistrarCliente() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="from-label">Correo: </label>
+                    <label className="form-label">Correo: </label>
                     <input className="form-control"
                         type="email"
                         value={correo}
@@ -125,7 +125,7 @@ function RegistrarCliente() {
                     />
                 </div>
 
-                <div className="d-flex aling-items-center gap-2 mt-4">
+                <div className="d-flex align-items-center gap-2 mt-4">
                     <button type="submit" className="btn btn-success">
                         <i className="fas fa-check me-1"></i>Registrar</button>
                     <Link to="/list-clientes" className="btn btn-secondary">

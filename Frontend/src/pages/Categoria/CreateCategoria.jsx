@@ -57,7 +57,7 @@ function RegistrarCategoria() {
                     />
                 </div>
  
-                 <div className="d-flex aling-items-center gap-2 mt-4">
+                 <div className="d-flex align-items-center gap-2 mt-4">
                     <button type="submit" className="btn btn-success">
                         <i className="fas fa-check me-1"></i>Registrar</button>
                     <Link to="/" className="btn btn-secondary">
