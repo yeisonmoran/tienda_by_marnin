@@ -142,7 +142,7 @@ function EditarProducto() {
                         onChange={(e) => setDescripcion(e.target.value)}
                     /> <br />
                 </div>
-                <div className="d-flex aling-items-center gap-2 mt-4">
+                <div className="d-flex align-items-center gap-2 mt-4">
                     <button type="submit" className="btn btn-primary">
                         <i className="fas fa-check me-1"></i>Actualizar</button>
                     <Link to="/list-productos" className="btn btn-secondary">

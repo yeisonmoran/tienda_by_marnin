@@ -114,8 +114,7 @@ function Clientes() {
                     <td>{cliente.ciudad}</td>
                     <td>
                       <span
-                        className={`badge ${cliente.activo ? "bg-success" : "bg-danger"
-                          }`}
+                        className={`badge ${cliente.activo ? "bg-success" : "bg-danger"}`}
                       >
                         {cliente.activo ? "Activo" : "Inactivo"}
                       </span>

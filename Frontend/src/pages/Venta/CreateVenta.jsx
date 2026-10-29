@@ -11,7 +11,8 @@ function RegistrarVenta() {
     const [busqueda, setBusqueda] = useState("");
     const [mostrarLista, setMostrarLista] = useState(false);
     const [clientes, setClientes] = useState([]);
-    const [metodoPago, setMetodoPago] = useState("efectivo");
+    const [metodoPago, setMetodoPago] = useState("Efectivo");
+    const [mostrarMetodos, setMostrarMetodos] = useState(false);
     const [productos, setProductos] = useState([]);
     const [idCliente, setIdCliente] = useState("");
     const [detalles, setDetalles] = useState([{ idProducto: "", cantidad: 1 }]);
@@ -37,7 +38,7 @@ function RegistrarVenta() {
         axios.get(`${import.meta.env.VITE_API_URL}/api/clientes`)
 
             .then(respuesta => {
-                setClientes(respuesta.data);
+                setClientes(respuesta.data.filter(cliente => cliente.activo));
             })
 
             .catch(error => {
@@ -132,7 +133,7 @@ function RegistrarVenta() {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Escribe documento o nombre del cliente..."
+                        placeholder="Ingrese el nombre o número de documento"
                         value={busqueda}
                         onChange={(e) => {
                             setBusqueda(e.target.value);
@@ -170,22 +171,42 @@ function RegistrarVenta() {
 
                     {idCliente && (
                         <small className="text-success d-block mt-1">
-                            ✓ Cliente seleccionado correctamente
+                            Cliente seleccionado correctamente
                         </small>
                     )}
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 position-relative">
                     <label className="form-label">Método de Pago</label>
-                    <select
-                        className="form-select"
-                        value={metodoPago}
-                        onChange={(e) => setMetodoPago(e.target.value)}
+                    <button
+                        type="button"
+                        className="form-select text-start"
+                        onClick={() => setMostrarMetodos(!mostrarMetodos)}
                     >
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="Tarjeta">Tarjeta</option>
-                        <option value="Transferencia">Transferencia</option>
-                    </select>
+                        {metodoPago}
+                    </button>
+
+                    {mostrarMetodos && (
+                        <ul
+                            className="list-group position-absolute w-100 shadow mt-1"
+                            style={{ zIndex: 1000 }}
+                        >
+                            {["Efectivo", "Tarjeta", "Transferencia"].map((metodo) => (
+                                <li
+                                    key={metodo}
+                                    className="list-group-item list-group-item-action"
+                                    style={{ cursor: "pointer" }}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        setMetodoPago(metodo);
+                                        setMostrarMetodos(false);
+                                    }}
+                                >
+                                    {metodo}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
 
                 <h4>Productos</h4>
@@ -232,7 +253,7 @@ function RegistrarVenta() {
 
                 <h4>Total: ${calcularTotal().toFixed(2)}</h4>
 
-                <div className="d-flex aling-items-center gap-2 mt-4">
+                <div className="d-flex align-items-center gap-2 mt-4">
                     <button type="submit" className="btn btn-success">
                         <i className="fas fa-check me-1"></i>Registrar</button>
                     <Link to="/list-ventas" className="btn btn-secondary">

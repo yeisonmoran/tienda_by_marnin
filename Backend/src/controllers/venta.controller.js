@@ -107,10 +107,7 @@ export async function registrarVenta(req, res) {
             };
         });
 
-        // Fecha comercial en hora de Colombia: el servidor puede correr en
-        // UTC (p. ej. en Render). Con new Date() a secas, una venta hecha
-        // después de las 7:00 p. m. (hora Colombia) se guardaría con la
-        // fecha del día siguiente, porque fecha es @db.Date (solo fecha).
+     
         const fechaComercial = new Date(
             new Date().toLocaleString("en-US", { timeZone: "America/Bogota" })
         );
@@ -124,7 +121,7 @@ export async function registrarVenta(req, res) {
                     fecha: fechaComercial,
                     total,
                     estado: "Completada",
-                    metodoPago: metodoPago || "efectivo",
+                    metodoPago: metodoPago || "Efectivo",
                 },
             });
 

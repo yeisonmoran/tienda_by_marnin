@@ -8,14 +8,24 @@ body {
   background-color: #f8f9fc;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 #wrapper {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #content-wrapper {
   background-color: #f8f9fc;
   width: 100%;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -23,14 +33,21 @@ body {
 
 #content {
   flex: 1 0 auto;
+  min-width: 0;
 }
 
 .sidebar {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .topbar {
   height: 4.375rem;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
 }
 
 .topbar .navbar-search {
@@ -40,6 +57,17 @@ body {
 .table th,
 .table td {
   vertical-align: middle;
+}
+
+select {
+  color-scheme: light;
+  color: #5a5c69;
+  background-color: #ffffff;
+}
+
+select option {
+  color: #5a5c69;
+  background-color: #ffffff;
 }
 
 .border-left-primary {
