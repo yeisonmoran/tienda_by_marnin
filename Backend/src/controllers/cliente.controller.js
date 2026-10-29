@@ -5,13 +5,11 @@ import prisma from "../config/db.js";
 export async function listarClientes(req, res) {
 
     try {
-        const clientes = await prisma.cliente.findMany({
-            data : { activo: true},
-        });
+        const clientes = await prisma.cliente.findMany();
         res.json(clientes);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Error al listar clintes" });
+        res.status(500).json({ error: "Error al listar clientes" });
 
     }
 }
@@ -122,7 +120,7 @@ export async function obtenerCliente(req, res) {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Error al obtenr cliente" });
+        res.status(500).json({ error: "Error al obtener cliente" });
 
     }
 }
