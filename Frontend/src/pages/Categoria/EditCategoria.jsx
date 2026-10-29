@@ -12,6 +12,7 @@ function EditarCategoria() {
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [esError, setEsError] = useState(false);
 
 
     useEffect(() => {
@@ -27,6 +28,7 @@ function EditarCategoria() {
 
     const manejarSubmit = (e) => {
         e.preventDefault();
+        setEsError(false);
 
         const token = localStorage.getItem("token");
 
@@ -44,7 +46,8 @@ function EditarCategoria() {
             })
             .catch(error => {
                 console.error(error)
-                setMensaje("Error al actualizar");
+                setMensaje(error.response?.data?.error || "Error al actualizar");
+                setEsError(true);
             });
     };
 
@@ -75,7 +78,7 @@ function EditarCategoria() {
                     </Link>
                 </div>
             </form>
-            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
+            {mensaje && <div className={`alert ${esError ? "alert-danger" : "alert-success"} mt-3`}>{mensaje}</div>}
         </div>
     );
 }

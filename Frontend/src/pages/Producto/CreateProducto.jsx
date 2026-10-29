@@ -17,6 +17,7 @@ function RegistrarProducto() {
     const [stockMinimo, setStockMinimo] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [esError, setEsError] = useState(false);
 
 
     const [categorias, setCategorias] = useState([]);
@@ -38,6 +39,7 @@ function RegistrarProducto() {
 
     const manejarSubmit = (e) => {
         e.preventDefault();
+        setEsError(false);
 
         const token = localStorage.getItem("token");
 
@@ -68,7 +70,8 @@ function RegistrarProducto() {
             })
             .catch(error => {
                 console.error(error)
-                setMensaje("Error al registrar producto");
+                setMensaje(error.response?.data?.error || "Error al registrar producto");
+                setEsError(true);
             });
     };
 
@@ -166,7 +169,7 @@ function RegistrarProducto() {
                     </Link>
                 </div>
             </form>
-            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
+            {mensaje && <div className={`alert ${esError ? "alert-danger" : "alert-success"} mt-3`}>{mensaje}</div>}
         </div>
     );
 }

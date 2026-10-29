@@ -13,6 +13,7 @@ function RegistrarUsuario() {
     const [idTipoDocumento, setIdTipoDocumento] = useState("");
     const [numDocumento, setNumDocumento] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [esError, setEsError] = useState(false);
 
     const [Tipo, setTipo] = useState([]);
 
@@ -49,6 +50,7 @@ function RegistrarUsuario() {
 
     const manejarSubmit = (e) => {
         e.preventDefault();
+        setEsError(false);
 
         const token = localStorage.getItem("token");
 
@@ -75,7 +77,8 @@ function RegistrarUsuario() {
             })
             .catch(error => {
                 console.error(error)
-                setMensaje("Error al registrar usuario");
+                setMensaje(error.response?.data?.error || "Error al registrar usuario");
+                setEsError(true);
             });
     };
 
@@ -151,7 +154,7 @@ function RegistrarUsuario() {
                 </div>
 
             </form>
-            {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
+            {mensaje && <div className={`alert ${esError ? "alert-danger" : "alert-success"} mt-3`}>{mensaje}</div>}
         </div>
     );
 }
