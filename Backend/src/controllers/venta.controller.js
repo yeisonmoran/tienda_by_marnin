@@ -65,9 +65,7 @@ export async function registrarVenta(req, res) {
                 continue;
             }
 
-            // El costo de compra viene de la tabla productos (inventario).
-            // Si no tiene costo asignado, se bloquea la venta para no
-            // guardar ganancias en 0 por error.
+
             if (Number(producto.precioCompra) <= 0) {
                 productosSinCosto.push({
                     idProducto: item.idProducto,
@@ -194,7 +192,6 @@ export async function obtenerVenta(req, res) {
 
             let gananciaTotal = 0;
             venta.detalles = venta.detalles.map(linea => {
-                // Las ventas anuladas no generan ganancia
                 const ganancia = venta.estado === "Anulada"
                     ? 0
                     : (Number(linea.precioUnitario) - Number(linea.costoUnitario || 0)) * linea.cantidad;
