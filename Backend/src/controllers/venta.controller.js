@@ -390,7 +390,7 @@ export async function exportarVentas(req, res) {
         const rango = hoja.getCell("A3");
         rango.value =
             `Del ${fechaInicio} al ${fechaFin}  |  ` +
-            `Generado: ${new Date().toLocaleString("es-CO")}`;
+            `Generado: ${new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" })}`;
         rango.alignment = { horizontal: "center" };
 
         hoja.columns = [
