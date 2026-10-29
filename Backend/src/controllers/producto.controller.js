@@ -78,6 +78,13 @@ export async function registrarProducto(req, res) {
             });
         }
 
+        if (precioCompra > precio) {
+            return res.status(400).json({
+                error: "El precio de compra no puuede ser mayor al precio de venta"
+
+            });
+        }
+
         if (stock === undefined || stock === null || stock === "") {
 
             return res.status(400).json({
@@ -118,6 +125,13 @@ export async function editarProducto(req, res) {
         if (precioCompra === undefined || precioCompra === null || precioCompra === "" || Number(precioCompra) <= 0) {
             return res.status(400).json({
                 error: "El precio de compra es obligatorio y debe ser mayor a 0"
+            });
+        }
+
+        if (precioCompra > precio) {
+            return res.status(400).json({
+                error: "El precio de compra no puuede ser mayor al precio de venta"
+
             });
         }
         const productoActualizado = await prisma.producto.update({
